@@ -1,0 +1,62 @@
+<section class="card proxima-cita">
+    <div class="cita-header">
+        <h3>Próxima Cita</h3>
+        
+        @switch (stateConfirmed) {
+            @case ('confirmed') {
+                <span class="badge confirmado">Confirmado</span>
+            }
+            @case ('pending') {
+                <span class="badge pendiente">Pendiente</span>
+            }
+            @case ('cancelled') {
+                <span class="badge cancelado">Cancelado</span>
+            }
+        }
+        
+    </div>
+
+    <div class="cita-body">
+
+        <div class="fecha-box">
+            <span class="dia">{{day}}</span>
+            <span class="mes">{{month}}</span>
+            <span class="year">{{year}}</span>
+        </div>
+
+        <div class="cita-detalles">
+
+            <div class="dato-fila destacado">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>{{hour}}</span>
+            </div>
+
+            <div class="doctor-info">
+                <div class="doctor-avatar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2CB1E6" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <div>
+                    <p class="doctor-nombre">{{name}}</p>
+                    @switch (userType) {
+                        @case ('doctor') {
+                            <p class="doctor-especialidad">{{speciality}}</p>
+                        }
+                        @case ('pacient') {
+                            <p class="doctor-especialidad">Edad: {{age}} años | Tel: {{number}}</p>
+                        }
+                    }
+                </div>
+            </div>
+
+            <a href="#" class="link-detalles">Ver detalles &rarr;</a>
+        </div>
+    </div>
+</section>

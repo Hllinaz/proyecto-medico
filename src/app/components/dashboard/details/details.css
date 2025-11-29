@@ -1,0 +1,135 @@
+/* --- ESTILOS TARJETA DE DETALLES (ESTADO) --- */
+
+.detalle-cita-container {
+    display: flex;
+    flex-direction: column;
+    /* Esto asegura que ocupe altura si el contenido crece */
+    height: 100%; 
+}
+
+.detalle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.detalle-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+.detalle-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 0.3s ease-in-out; /* Pequeña animación al aparecer */
+}
+
+/* Bloques de Información */
+.info-block label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #999;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    letter-spacing: 0.5px;
+}
+
+.data-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+/* Perfil del Doctor Miniatura */
+.doctor-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-blue); /* Fondo azul */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.doctor-text .name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+.doctor-text .specialty {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Grid para Fecha/Hora */
+.grid-2-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Caja del Motivo */
+.motivo-box {
+    background-color: #F9FAFB; /* Fondo gris muy suave */
+    border-left: 4px solid var(--primary-blue); /* Borde acento a la izquierda */
+    padding: 15px;
+    border-radius: 0 10px 10px 0;
+}
+
+.motivo-box p {
+    font-size: 0.9rem;
+    color: #555;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+/* Botones de Acción en el pie de la tarjeta */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-outline, .btn-danger-outline {
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    flex: 1; /* Ocupan el mismo ancho */
+    transition: all 0.2s;
+    background: transparent;
+}
+
+.btn-outline {
+    border: 1px solid var(--primary-blue);
+    color: var(--primary-blue);
+}
+
+.btn-outline:hover {
+    background-color: #EBF8FD;
+}
+
+.btn-danger-outline {
+    border: 1px solid #ffcccc;
+    color: #F44336;
+}
+
+.btn-danger-outline:hover {
+    background-color: #fff5f5;
+    border-color: #F44336;
+}

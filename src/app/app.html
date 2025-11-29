@@ -1,6 +1,7 @@
-@if (isLoggedIn) {
-    <app-dashboard/>
-} @else {
-    <app-login/>
-}
+<nav>
+  <a routerLink="/dashboard">Ir al Dashboard</a>
+</nav>
+
+<!-- Aquí se cargará el dashboard -->
+<router-outlet></router-outlet>
 

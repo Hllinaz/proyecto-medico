@@ -1,0 +1,215 @@
+/* 1. Próxima Cita */
+.proxima-cita {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: auto; /* Quitamos altura fija para que se adapte al contenido */
+    gap: 15px;
+}
+
+.cita-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f5f5f5; /* Línea sutil separadora opcional */
+}
+
+.cita-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-secondary); /* Gris para que no compita con los datos */
+    font-weight: 500;
+}
+
+/* 2. Cuerpo (Caja Fecha + Detalles) */
+.cita-body {
+    display: flex;
+    align-items: flex-start; /* Alineados arriba */
+    gap: 20px; /* Espacio entre el calendario y el texto */
+}
+
+/* --- CAJA DE FECHA (ESTILO CALENDARIO) --- */
+.fecha-box {
+    background-color: #E3F2FD; /* Azul muy claro (fondo) */
+    color: var(--primary-blue); /* Azul principal (texto) */
+    border-radius: 15px;
+    padding: 12px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 85px; /* Ancho fijo para que se vea cuadrado */
+    box-shadow: 0 4px 10px rgba(44, 177, 230, 0.1);
+}
+
+.fecha-box .dia {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1; /* Evita espacios extra verticales */
+}
+
+.fecha-box .mes {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 4px;
+    letter-spacing: 1px;
+}
+
+.fecha-box .year {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+/* --- COLUMNA DE DETALLES --- */
+.cita-detalles {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+}
+
+/* Fila de Hora */
+.dato-fila {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.dato-fila svg {
+    stroke: var(--text-secondary); /* Color gris para el icono del reloj */
+}
+
+/* Fila de Doctor */
+.doctor-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.doctor-avatar {
+    background-color: #f0f2f5;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%; /* Círculo perfecto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.doctor-nombre {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.doctor-especialidad {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Link "Ver detalles" */
+.link-detalles {
+    font-size: 0.85rem;
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 2px;
+    align-self: flex-start;
+    transition: opacity 0.2s;
+}
+
+.link-detalles:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+.proxima-cita h3 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.doctor-name {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.fecha-grande {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-main);
+}
+
+/* --- ESTILOS TARJETA DE DETALLES (ESTADO) --- */
+
+.detalle-cita-container {
+    display: flex;
+    flex-direction: column;
+    /* Esto asegura que ocupe altura si el contenido crece */
+    height: 100%; 
+}
+
+.detalle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.detalle-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+.detalle-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 0.3s ease-in-out; /* Pequeña animación al aparecer */
+}
+
+/* Bloques de Información */
+.info-block label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #999;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    letter-spacing: 0.5px;
+}
+
+.data-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+/* Perfil del Doctor Miniatura */
+.doctor-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-blue); /* Fondo azul */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}

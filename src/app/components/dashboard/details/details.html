@@ -1,0 +1,69 @@
+<section class="card detalle-cita-container">
+
+    <div class="detalle-header">
+        <h3>Detalles de la Cita</h3>
+        @switch (stateConfirmed) {
+            @case ('confirmed') {
+                <span class="badge confirmado">Confirmado</span>
+            }
+            @case ('pending') {
+                <span class="badge pendiente">Pendiente</span>
+            }
+            @case ('cancelled') {
+                <span class="badge cancelado">Cancelado</span>
+            }
+        }
+    </div>
+
+    <div class="detalle-body">
+
+        <div class="info-block">
+            <label>Especialista</label>
+            <div class="doctor-profile">
+                <div class="avatar-circle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <div class="doctor-text">
+                    <p class="name">{{name}}</p>
+                    @switch (userType) {
+                        @case ('doctor') {
+                            <p class="specialty">{{speciality}}</p>
+                        }
+                        @case ('pacient') {
+                            <p class="specialty">Edad: {{age}} años | Tel: {{number}}</p>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2-col">
+            <div class="info-block">
+                <label>Fecha</label>
+                <p class="data-text">{{date}}</p>
+            </div>
+            <div class="info-block">
+                <label>Hora</label>
+                <p class="data-text">{{hour}}</p>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <label>Motivo de la consulta</label>
+            <div class="motivo-box">
+                <p>{{decription}}</p>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn-outline">Reagendar</button>
+            <button class="btn-danger-outline">Cancelar Cita</button>
+        </div>
+
+    </div>
+
+</section>

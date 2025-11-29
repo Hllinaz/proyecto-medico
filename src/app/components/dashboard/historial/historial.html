@@ -1,0 +1,37 @@
+<section class="card historial-container">
+    <div class="table-responsive">
+        <table class="tabla-citas">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Médico</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (app of appoindments; track app.id) {
+                <tr>
+                    <td>{{ app.date }}</td>
+                    <td>{{ app.name }}</td>
+                    <td>{{ app.doctor }}</td>
+
+                    <td>
+                        @switch (app.stateConfirmed) {
+                            @case ('confirmed') {
+                                <span class="badge confirmado">Confirmado</span>
+                                }
+                                @case ('pending') {
+                                    <span class="badge pendiente">Pendiente</span>
+                                }
+                                @case ('cancelled') {
+                                    <span class="badge cancelado">Cancelado</span>
+                                }
+                            }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

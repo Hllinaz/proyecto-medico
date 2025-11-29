@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Médico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <img src="logo.png" alt="Logo" class="logo">
+                </div>
+            </div>
+
+            <div class="nav-bar card-shadow">
+                <span>Navegación general + buscador</span>
+            </div>
+
+            <div class="profile-bar card-shadow">
+                <span>Editar perfil + notificaciones</span>
+            </div>
+        </header>
+
+        <main class="dashboard-grid">
+
+            <div class="col-left">
+
+                <app-next-patient [userType]="user"></app-next-patient>
+                
+                <app-historial/>
+            </div>
+
+            <div class="col-right">
+
+                <section class="card card-azul">
+                    <div class="azul-content">
+                        <h2>Cuida tu salud hoy</h2>
+                        <p>Agenda tu visita con nuestros especialistas de forma rápida y sencilla.</p>
+                    </div>
+                    <button class="btn-blanco">Crear una cita +</button>
+                </section>
+
+                <app-details [userType]="user"></app-details>
+                
+                <section class="card card-vacia">
+                </section>
+
+            </div>
+
+        </main>
+    </div>
+
+</body>
+
+</html>
+
+
+<!-- Codigo Angular para la tabla de citas en dashboard.html ----
+    <ng-container *ngIf="listaDeCitas && listaDeCitas.length > 0; else noCitas">
+        <tbody>
+            <tr *ngFor="let cita of listaDeCitas">
+                <td>{{ cita.fecha }}</td>
+                <td>{{ cita.nombrePaciente }}</td>
+                <td>{{ cita.medico }}</td>
+        <td>
+            <span class="badge" [ngClass]="cita.estado">
+                {{ cita.estado }}
+            </span>
+        </td>
+    </tr>
+</tbody>
+-->
