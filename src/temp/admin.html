@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - MedSpace</title>
+    
+    <link rel="stylesheet" href="dashboard.css"> <link rel="stylesheet" href="admin.css">     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <header class="header-moderno">
+            <div class="logo-section">
+                <i class='bx bx-plus-medical logo-icon-brand'></i>
+                <span class="brand-name">MedSpace Admin</span>
+            </div>
+
+            <div class="search-bar-container">
+                <i class='bx bx-search search-icon'></i>
+                <input type="text" id="global-search" placeholder="Buscar usuario..." class="search-input">
+            </div>
+
+            <div class="user-actions">
+                <div class="profile-section" style="background-color: #E3F2FD;">
+                    <img src="https://ui-avatars.com/api/?name=Admin+Principal&background=0D8ABC&color=fff" alt="Admin" class="avatar-img">
+                    <span class="user-name" style="color: #0056b3;">Admin Principal</span>
+                </div>
+                <button class="icon-btn logout-btn"><i class='bx bx-log-out'></i></button>
+            </div>
+        </header>
+
+        <main class="admin-layout">
+
+            <section class="stats-grid" id="kpi-container">
+                </section>
+
+            <div class="tables-grid-admin">
+                
+                <section class="card admin-card">
+                    <div class="card-header-admin">
+                        <h3>Gestión de Médicos</h3>
+                        <button class="btn-small-primary" onclick="alert('Abrir modal crear médico')">
+                            <i class='bx bx-plus'></i> Nuevo
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Especialidad</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="doctors-table-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="card admin-card">
+                    <div class="card-header-admin">
+                        <h3>Pacientes Recientes</h3>
+                        <button class="btn-small-outline">
+                            <i class='bx bx-filter'></i> Filtrar
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Última Visita</th>
+                                    <th>Seguro</th>
+                                    <th>Ver</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patients-table-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+
+        </main>
+    </div>
+
+    <script src="admin-logic.js"></script>
+
+</body>
+</html>

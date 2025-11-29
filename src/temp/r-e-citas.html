@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reprogramar Cita - MedSpace</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="reprog-edi-cita.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <header class="header-moderno">
+            <div class="logo-section">
+                <i class='bx bx-plus-medical logo-icon-brand'></i>
+                <span class="brand-name">MedSpace</span>
+            </div>
+
+            <div class="search-bar-container oculto">
+                <i class='bx bx-search search-icon'></i>
+                <input type="text" placeholder="Buscar..." class="search-input">
+            </div>
+
+            <div class="user-actions">
+                <button class="icon-btn" title="Notificaciones">
+                    <i class='bx bx-bell'></i>
+                    <span class="notification-dot"></span>
+                </button>
+                <div class="profile-section">
+                    <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User" class="avatar-img">
+                    <span class="user-name">Sebastian J.</span>
+                </div>
+                <button class="icon-btn logout-btn">
+                    <i class='bx bx-log-out'></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="edit-layout">
+            
+            <section class="card edit-form-card">
+                
+                <div class="form-header-row">
+                    <div>
+                        <h2 class="form-title">Editar / Reprogramar Cita</h2>
+                        <p class="subtitle">ID de Cita: #88349</p>
+                    </div>
+                    <span class="badge confirmado">Confirmado</span>
+                </div>
+
+                <div class="info-alert">
+                    <i class='bx bx-info-circle'></i>
+                    <p>Nota: Reprogramar la cita con menos de 24 horas de antelación puede generar cargos adicionales.</p>
+                </div>
+
+                <form class="edit-form">
+                    
+                    <div class="form-group full-width">
+                        <label>Paciente</label>
+                        <div class="input-readonly-wrapper">
+                            <i class='bx bx-user'></i>
+                            <input type="text" value="Sebastian Jimenez" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Especialidad</label>
+                            <select name="especialidad">
+                                <option value="cardiologia" selected>Cardiología</option>
+                                <option value="medicina-general">Medicina General</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Doctor Asignado</label>
+                            <select name="doctor">
+                                <option value="dr-sebastian" selected>Dr. Sebastian Jimenez</option>
+                                <option value="dra-maria">Dra. Maria Lopez</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nueva Fecha</label>
+                            <input type="date" name="fecha" value="2026-03-02">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nueva Hora</label>
+                            <input type="time" name="hora" value="10:00">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Motivo / Notas adicionales</label>
+                        <textarea rows="4">Presento dolores frecuentes en el pecho al realizar ejercicio leve y sensación de falta de aire por las noches.</textarea>
+                    </div>
+
+                    <div class="form-actions-edit">
+                        
+                        <button type="button" class="btn-danger-text">
+                            <i class='bx bx-trash'></i> Cancelar esta Cita
+                        </button>
+
+                        <div class="right-buttons">
+                            <button type="button" class="btn-cancelar">Volver</button>
+                            <button type="submit" class="btn-guardar">
+                                <i class='bx bx-save'></i> Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+</html>

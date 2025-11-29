@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Cita</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="crear-cita.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="main-container">
+        <header class="header">
+            <div class="logo-container">
+                <img src="img/logo.png" alt="Logo" class="logo">
+            </div>
+
+            <div class="nav-bar card">
+                <span>Navegación general + buscador</span>
+            </div>
+
+            <div class="profile-bar card">
+                <span>Editar perfil + notificaciones</span>
+            </div>
+        </header>
+
+        <main class="dashboard-grid">
+            <section class="card crear-cita-form">
+                <h2>Crear Nueva Cita</h2>
+                <form>
+                    <div class="card form-container">
+                        <h2 class="form-title">Crear una nueva reserva</h2>
+
+                        <form class="reservation-form">
+
+                            <div class="form-group full-width">
+                                <label for="nombre">Nombre del Paciente</label>
+                                <input type="text" id="nombre" name="nombre" value="Sebastian Jimenez" readonly
+                                    class="input-readonly">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="especialidad">Especialidad requerida</label>
+                                    <select id="especialidad" name="especialidad">
+                                        <option value="" disabled selected>Selecciona una opción</option>
+                                        <option value="medicina-general">Medicina General</option>
+                                        <option value="cardiologia">Cardiología</option>
+                                        <option value="pediatria">Pediatría</option>
+                                        <option value="dermatologia">Dermatología</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="doctor">Doctor</label>
+                                    <select id="doctor" name="doctor">
+                                        <option value="" disabled selected>Selecciona un doctor</option>
+                                        <option value="dr-luis">Dr. Luis</option>
+                                        <option value="dra-maria">Dra. Maria</option>
+                                        <option value="dr-roberto">Dr. Roberto</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fecha">Fecha</label>
+                                    <input type="date" id="fecha" name="fecha">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="hora">Hora</label>
+                                    <input type="time" id="hora" name="hora" min="08:00" max="18:00">
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="motivo">Motivo de la consulta</label>
+                                <textarea id="motivo" name="motivo" rows="4"
+                                    placeholder="Describe brevemente tus síntomas o la razón de la visita..."></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn-cancelar">Cancelar</button>
+                                <button type="submit" class="btn-submit">Confirmar Reserva</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </form>
+
+            </section>
+        </main>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horario Médico - MedSpace</title>
+    
+    <link rel="stylesheet" href="dashboard.css"> <link rel="stylesheet" href="horario.css">   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <header class="header-moderno">
+            <div class="logo-section">
+                <img src="img/logo.png" alt="Logo" class="logo-icon-brand">
+            </div>
+            <div class="search-bar-container oculto"></div>
+            <div class="user-actions">
+                <div class="profile-section">
+                    <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User" class="avatar-img">
+                    <span class="user-name">Dr. Sebastian</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="calendar-wrapper">
+            
+            <div class="calendar-controls">
+                <h2>Agenda Semanal</h2>
+                <div class="week-selector">
+                    <button class="icon-btn-small"><i class='bx bx-chevron-left'></i></button>
+                    <span>Marzo 02 - Marzo 07, 2026</span>
+                    <button class="icon-btn-small"><i class='bx bx-chevron-right'></i></button>
+                </div>
+            </div>
+
+            <div class="calendar-grid">
+                
+                <div class="header-row">
+                    <div class="corner-cell">Hora</div> <div class="day-header">Lun 02</div>
+                    <div class="day-header">Mar 03</div>
+                    <div class="day-header">Mié 04</div>
+                    <div class="day-header">Jue 05</div>
+                    <div class="day-header">Vie 06</div>
+                    <div class="day-header">Sáb 07</div>
+                </div>
+
+                <div class="time-grid" id="calendar-body">
+                    <div class="time-label" style="grid-row: 1">08:00 AM</div>
+                    <div class="time-label" style="grid-row: 2">09:00 AM</div>
+                    <div class="time-label" style="grid-row: 3">10:00 AM</div>
+                    <div class="time-label" style="grid-row: 4">11:00 AM</div>
+                    <div class="time-label" style="grid-row: 5">12:00 PM</div>
+                    <div class="time-label" style="grid-row: 6">01:00 PM</div>
+                    <div class="time-label" style="grid-row: 7">02:00 PM</div>
+                    <div class="time-label" style="grid-row: 8">03:00 PM</div>
+                    <div class="time-label" style="grid-row: 9">04:00 PM</div>
+                    <div class="time-label" style="grid-row: 10">05:00 PM</div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="cita-modal" class="modal-overlay hidden">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h3>Detalles de la Cita</h3>
+                <button id="close-modal" class="close-btn"><i class='bx bx-x'></i></button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="patient-info">
+                    <div class="avatar-circle"><i class='bx bx-user'></i></div>
+                    <div>
+                        <h4 id="m-patient">Nombre Paciente</h4>
+                        <p id="m-type">Tipo de consulta</p>
+                    </div>
+                </div>
+                
+                <div class="info-grid">
+                    <div>
+                        <label>Hora</label>
+                        <p id="m-time" class="data-text">00:00</p>
+                    </div>
+                    <div>
+                        <label>Estado</label>
+                        <span id="m-status" class="badge">Estado</span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <a href="editar-cita.html" class="btn-primary full-btn">
+                        Reprogramar / Editar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="citas.js"></script>
+
+</body>
+</html>
