@@ -1,0 +1,192 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F2F2F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- CONTENEDOR PRINCIPAL (TARJETA FLOTANTE) --- */
+.main-container {
+    display: flex;
+    width: 900px;          
+    height: 600px;         
+    background-color: var(--card-color);
+    border-radius: 20px;   
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); 
+    overflow: hidden;      
+}
+
+/* --- LADO IZQUIERDO  --- */
+.left-panel {
+    width: 45%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Alineado a la izq */
+    padding: 40px;
+    position: relative;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+}
+
+.brand-content {
+    z-index: 2; /* Para que esté encima del círculo decorativo */
+}
+
+.form-header h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.form-header p {
+    text-align: center;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+}
+
+.brand-content h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1.1;
+}
+
+.brand-content p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    line-height: 1.5;
+    font-weight: 300;
+}
+
+/* Círculo decorativo sutil */
+.decorative-circle {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    bottom: -60px;
+    left: -60px;
+    z-index: 1;
+}
+
+/* --- LADO DERECHO (FORMULARIO) --- */
+
+.right-panel {
+    width: 60%;
+    padding: 40px 50px; /* Más espacio interno */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-header h2 {
+    color: var(--text-color);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.form-header p {
+    color: var(--placeholder-color);
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+}
+
+/* --- INPUTS --- */
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--input-background);
+    border: 1px solid transparent; /* Sin borde visible por defecto */
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif; /* Asegurar fuente en inputs */
+    font-size: 0.9rem;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+/* Placeholder color */
+input::placeholder {
+    color: var(--placeholder-color);
+}
+
+/* Estado Focus del Input */
+input:focus {
+    border-color: var(--primary-color);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(51, 184, 232, 0.1); /* Resplandor azul cian suave */
+}
+
+/* --- BOTÓN --- */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--secondary-color); /* Usamos el azul fuerte para el botón */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-submit:hover {
+    background-color: var(--card-background); /* Cambio de tono al pasar el mouse */
+    transform: translateY(-1px); /* Pequeña elevación */
+}
+
+/* --- FOOTER --- */
+.form-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--placeholder-color);
+}
+
+.form-footer a {
+    color: var(--secondary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}

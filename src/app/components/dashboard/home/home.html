@@ -1,0 +1,19 @@
+<div class="col-left">
+  <app-next-patient [userType]="user"></app-next-patient>
+
+  <app-historial />
+</div>
+
+<div class="col-right">
+  <section class="card card-azul">
+    <div class="azul-content">
+      <h2>Cuida tu salud hoy</h2>
+      <p>Agenda tu visita con nuestros especialistas de forma rápida y sencilla.</p>
+    </div>
+    <button class="btn-blanco">Crear una cita +</button>
+  </section>
+
+  <app-details [userType]="user"></app-details>
+
+  <section class="card card-vacia"></section>
+</div>

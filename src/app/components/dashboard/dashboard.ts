@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-import { Details} from "./details/details";
-import { Historial } from "./historial/historial"
-import { Next} from "./next/next"
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [Details, Historial, Next],
+  imports: [RouterOutlet],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
 export class Dashboard {
-  user = 'pacient'
+  user = 'pacient';
 }

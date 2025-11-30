@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - MedSpace</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <header class="header-moderno">
+            <div class="logo-section">
+                <i class='bx bx-plus-medical logo-icon-brand'></i>
+                <span class="brand-name">MedSpace Admin</span>
+            </div>
+
+            <div class="search-bar-container">
+                <i class='bx bx-search search-icon'></i>
+                <input type="text" id="global-search" placeholder="Buscar usuario..." class="search-input">
+            </div>
+
+            <div class="user-actions">
+                <div class="profile-section" style="background-color: #E3F2FD;">
+                    <img src="https://ui-avatars.com/api/?name=Admin+Principal&background=0D8ABC&color=fff" alt="Admin"
+                        class="avatar-img">
+                    <span class="user-name" style="color: #0056b3;">Admin Principal</span>
+                </div>
+                <button class="icon-btn logout-btn"><i class='bx bx-log-out'></i></button>
+            </div>
+        </header>
+
+        <main class="admin-layout">
+
+            <section class="stats-grid" id="kpi-container">
+                @for (stat of kpiData; track stat.label) {
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <p>{{stat.label}}</p>
+                        <h3>{{stat.value}}</h3>
+                    </div>
+                    <div class="stat-icon {{stat.color}}">
+                        <i class='bx {{stat.icon}}'></i>
+                    </div>
+                </div>
+                }
+            </section>
+
+            <div class="tables-grid-admin">
+
+                <section class="card admin-card">
+                    <div class="card-header-admin">
+                        <h3>Gestión de Médicos</h3>
+                        <button class="btn-small-primary" onclick="alert('Abrir modal crear médico')">
+                            <i class='bx bx-plus'></i> Nuevo
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Especialidad</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="doctors-table-body">
+                                @for (doc of doctors; track doc.id) {
+                                <tr>
+                                    <td class="user-cell">
+                                        @if (doc.avatar) {
+                                        <img src="{{doc.avatar}}" alt="{{doc.name}}">
+                                        } @else {
+                                        <div class="initial-avatar">{{doc.name.charAt(4)}}</div>
+                                        }
+                                        <span>{{doc.name}}</span>
+                                    </td>
+                                    <td>{{doc.speciality}}</td>
+                                    <td><span class="status-dot {{getStatus(doc.status).class}}"></span>
+                                        {{getStatus(doc.status).text}}</td>
+                                    <td>
+                                        <button class="action-btn edit" title="Editar"><i
+                                                class='bx bx-edit-alt'></i></button>
+                                        <button class="action-btn delete" title="Borrar"><i
+                                                class='bx bx-trash'></i></button>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </section>
+
+                <section class="card admin-card">
+                    <div class="card-header-admin">
+                        <h3>Pacientes Recientes</h3>
+                        <button class="btn-small-outline">
+                            <i class='bx bx-filter'></i> Filtrar
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Última Visita</th>
+                                    <th>Seguro</th>
+                                    <th>Ver</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patients-table-body">
+                                @for (pat of patients; track pat.id) {
+                                <tr>
+                                    <td class="user-cell">
+                                        <div class="initial-avatar ${pat.color}">{{pat.initial}}</div>
+                                        <span>{{pat.name}}</span>
+                                    </td>
+                                    <td>{{pat.lastVisit}}</td>
+                                    <td>{{pat.insurance}}</td>
+                                    <td>
+                                        <button class="action-btn view" title="Ver Historial"><i
+                                                class='bx bx-show'></i></button>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+
+        </main>
+    <button (click)="refreshData()" class="refresh-btn">
+      Actualizar Datos
+    </button>
+    </div>
+</body>
+
+</html>

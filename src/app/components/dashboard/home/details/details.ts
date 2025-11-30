@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class Details {
   stateConfirmed = 'pending'
-  @Input userType!: String
+  @Input() userType!: String
   date = ''
   hour = ''
   name = ''

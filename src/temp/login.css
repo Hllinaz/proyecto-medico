@@ -1,0 +1,231 @@
+/* Reset básico y paleta de colores */
+:root {
+    --primary-color: #33B8E8;
+    --secondary-color: #2064ca;
+    --background-color: #F2F2F2;
+    --card-background: #536DFE;
+    --input-background: #F3F4F6;
+    --text-color: #1A1A1A;
+    --card-color: #FFFFFF;
+    --placeholder-color: #8d8d8d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F2F2F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Mancha decorativa en la esquina superior derecha (Glow Effect) */
+.blur-effect {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(182, 156, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
+    filter: blur(50px);
+    z-index: -1;
+}
+
+/*------------ Estilos para el Contenedor Principal --- */
+.main-wrapper {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.login-card {
+    background-color: #fff;
+    width: 950px;
+    min-height: 600px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: row-reverse;
+    overflow: hidden;
+}
+
+/* --- LADO IZQUIERDO (Formulario de Login) --- */
+
+.left-panel {
+    flex: 1;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-header h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    /* Para que diga "Iniciar Sesión" */
+}
+
+.form-logo {
+    width: 200px;
+    margin-bottom: 30px;
+}
+
+.form-header p {
+    font-size: 0.9rem;
+    color: var(--placeholder-color);
+}
+
+/* Inputs */
+form {
+    width: 100%;
+    max-width: 350px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: #f0f0f0;
+    /* Fondo gris claro */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+    color: #333;
+}
+
+.input-group input::placeholder {
+    color: #aaa;
+}
+
+.input-group input:focus {
+    background-color: #e0e0e0;
+}
+
+/* Icono de ojo */
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    cursor: pointer;
+}
+
+/* Olvidaste contraseña */
+.forgot-pass {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+
+/* Botón Iniciar Sesión */
+.btn-login {
+    margin-top: 35px;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    /* El verde del diseño */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(33, 215, 247, 0.3);
+}
+
+.btn-login:hover {
+    background-color: var(--secondary-color);
+}
+
+.register-link {
+
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* --- LADO DERECHO (Panel decorativo) --- */
+.right-panel {
+    width: 40%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 40px;
+    position: relative;
+
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+}
+
+/* Círculo decorativo sutil */
+.decorative-circle {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    bottom: -70px;
+    left: 170px;
+    z-index: 1;
+}
+
+.panel-content {
+    z-index: 2;
+}
+
+.panel-content h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.panel-content p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.register-link {
+    text-align: center;
+
+}
+
+.register-link a {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.register-link a:hover {
+    color: var(--secondary-color);
+}

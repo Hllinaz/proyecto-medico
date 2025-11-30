@@ -1,0 +1,52 @@
+.col-left,
+.col-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+/* === COLUMNA DERECHA === */
+
+/* 3. Tarjeta Azul */
+.card-azul {
+  margin-top: auto;
+  background-color: var(--primary-blue);
+  color: white;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Separa texto arriba y botón abajo */
+  align-items: flex-start;
+}
+
+.card-azul .azul-content p {
+  padding: 5px 0;
+}
+
+.card-azul h2 {
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+.btn-blanco {
+  margin-top: 15px;
+  background-color: white;
+  color: var(--text-main);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-blanco:hover {
+  background-color: #f0f0f0;
+}
+
+/* 5. Tarjeta Vacía */
+.card-vacia {
+  flex-grow: 1; /* Ocupa el espacio restante abajo */
+  min-height: 100px;
+}
