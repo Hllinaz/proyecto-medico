@@ -1,0 +1,110 @@
+<main class="calendar-wrapper">
+  <div class="calendar-controls">
+    <h2>Agenda Semanal</h2>
+    <div class="week-selector">
+      <button class="icon-btn-small" (click)="semanaAnterior()">
+        <i class="bx bx-chevron-left"></i>
+      </button>
+      <span>{{ getRangoSemana() }}</span>
+      <button class="icon-btn-small" (click)="semanaSiguiente()">
+        <i class="bx bx-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="calendar-grid">
+    <div class="header-row">
+      <div class="corner-cell">Hora</div>
+      @for (dia of semanaActual.dias; track dia.diaNum) {
+        <div class="day-header">{{ dia.nombre }} {{ dia.fecha }}</div>
+      }
+    </div>
+
+    <div class="time-grid" id="calendar-body">
+      @for (hora of horas; track hora; let i = $index) {
+        <div class="time-label" [style.grid-row]="i + 1">
+          {{ hora }}
+        </div>
+      }
+
+      @for (cita of citasData; track cita.id) {
+        <div
+          class="cita-card"
+          [ngClass]="getClaseEstado(cita.estado)"
+          [style]="getEstiloCita(cita)"
+          (click)="abrirModal(cita)"
+        >
+          <div class="cita-content">
+            <strong>{{ cita.paciente }}</strong>
+            <span class="cita-tipo">{{ cita.tipo }}</span>
+            <span class="cita-hora">{{ horas[cita.hora - 1] }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</main>
+
+@if (mostrarModal) {
+  <div class="modal-overlay" (click)="cerrarModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <!-- Header del Modal -->
+      <div class="modal-header">
+        <h2>Detalles de la Cita</h2>
+        <button class="close-btn" (click)="cerrarModal()">×</button>
+      </div>
+
+      <!-- Información del Paciente -->
+      @if (citaSeleccionada) {
+        <div class="cita-detalles">
+          <div class="patient-info">
+            <div class="patient-avatar">
+              <!-- Puedes agregar un avatar aquí -->
+              <div class="avatar-placeholder">{{ citaSeleccionada.paciente.charAt(0) }}</div>
+            </div>
+            <div class="patient-main">
+              <h3>{{ citaSeleccionada.paciente }}</h3>
+              <span [class]="'estado-badge estado-' + citaSeleccionada.estado">
+                {{ citaSeleccionada.estado }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Grid de información -->
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Tipo de Cita</label>
+              <p>{{ citaSeleccionada.tipo }}</p>
+            </div>
+            <div class="info-item">
+              <label>Día</label>
+              <p>
+                {{ semanaActual.dias[citaSeleccionada.dia - 1]?.nombre }}
+                {{ semanaActual.dias[citaSeleccionada.dia - 1]?.fecha }}
+              </p>
+            </div>
+            <div class="info-item">
+              <label>Hora</label>
+              <p>{{ horas[citaSeleccionada.hora - 1] }}</p>
+            </div>
+            <div class="info-item">
+              <label>Duración</label>
+              <p>{{ citaSeleccionada.duracion || 1 }} hora(s)</p>
+            </div>
+          </div>
+
+          <!-- Acciones -->
+          <div class="modal-actions">
+            @if (citaSeleccionada.estado === 'pendiente') {
+              <button class="full-btn primary" (click)="confirmarCita()">Confirmar Cita</button>
+            }
+            <button class="full-btn secondary" (click)="cerrarModal()">Cerrar</button>
+            @if (citaSeleccionada.estado !== 'cancelado') {
+              <button class="full-btn danger" (click)="cancelarCita()">Cancelar Cita</button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

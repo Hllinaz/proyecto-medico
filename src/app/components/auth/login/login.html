@@ -1,6 +1,5 @@
 <body>
-
-    <div class="blur-effect"></div> <!-- Efecto de desenfoque (no es completamente necesario pero le da un estilo, esta arriba a la derecha) -->
+    <div class="blur-effect"></div>
 
     <div class="main-wrapper">
         <div class="login-card">
@@ -11,33 +10,65 @@
                     <p>inicia sesión para gestionar tus citas médicas de forma rápida y segura.</p>
                 </div>
                 <div class="decorative-circle"></div>
-
             </div>
 
-            <div class="left-panel">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="left-panel">
                 <div class="form-header">
-                    <img src="img/logo-texto.png" alt="Logo" class="form-logo">
+                    <img src="logo-texto.png" alt="Logo" class="form-logo">
                     <h3>inicia sesión</h3>
                     <p>Por favor use su correo y Contraseña</p>
                 </div>
 
-                <form action="#">
-                    <div class="input-group">
-                        <input type="email" placeholder="Email" required>
+                <div class="input-group">
+                    <input
+                        type="email"
+                        id="email"
+                        formControlName="email"
+                        placeholder="Email"
+                        [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+
+                    @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                        <div class="error-message">
+                            Email es requerido y debe ser válido
+                        </div>
+                    }
+                </div>
+
+                <div class="input-group">
+                    <input
+                        type="password"
+                        id="password"
+                        formControlName='password'
+                        placeholder="Contraseña"
+                        [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                    <i class="fa-regular fa-eye-slash toggle-password"></i>
+
+                    @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+                        <div class="error-message">
+                            Contraseña es requerida (mínimo 6 caracteres)
+                        </div>
+                    }
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn-login"
+                    [disabled]="loginForm.invalid || loading">
+                    {{ loading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
+                </button>
+
+                @if (error) {
+                    <div class="error-message">
+                        {{ error }}
                     </div>
+                }
 
-                    <div class="input-group">
-                        <input type="password" placeholder="Contraseña" required>
-                        <i class="fa-regular fa-eye-slash toggle-password"></i>
-                    </div>
-
-
-                    <button type="submit" class="btn-login">iniciar sesión</button>
-                    <p class="register-link">no tienes cuenta? <a href="auth/register">Regístrate</a></p>
-                </form>
-            </div>
+                <p class="register-link">
+                    no tienes cuenta?
+                    <a routerLink="/auth/register">Regístrate</a>
+                </p>
+            </form>
 
         </div>
     </div>
-
 </body>

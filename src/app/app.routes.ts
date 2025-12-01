@@ -1,23 +1,42 @@
+// app.routes.ts
 import { Routes } from '@angular/router';
+import { TypeValidationGuard } from '@guards/type.guard';
+import { AdminGuard } from '@guards/admin.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'dashboard/home', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
   { path: 'auth', redirectTo: 'auth/login', pathMatch: 'full' },
+
+  // Ruta específica para admin (sin guard de tipo)
   {
-    path: 'dashboard',
+    path: 'admin',
+    loadComponent: () => import('./components/admin/admin').then((m) => m.Admin),
+    canActivate: [AdminGuard],
+  },
+
+  // Rutas de dashboard con validación de tipos
+  {
+    path: ':type',
     loadComponent: () => import('./components/dashboard/dashboard').then((m) => m.Dashboard),
+    canActivate: [TypeValidationGuard],
     children: [
-      {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full',
-      },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
         loadComponent: () => import('./components/dashboard/home/home').then((m) => m.Home),
       },
+      {
+        path: 'appointment',
+        loadComponent: () => import('./components/dashboard/appoinment/cita').then((m) => m.Cita),
+      },
+      {
+        path: 'schedule',
+        loadComponent: () =>
+          import('./components/dashboard/schedule/schedule').then((m) => m.Schedule),
+      },
     ],
   },
+
   {
     path: 'auth/login',
     loadComponent: () => import('./components/auth/login/login').then((m) => m.Login),
@@ -26,8 +45,6 @@ export const routes: Routes = [
     path: 'auth/register',
     loadComponent: () => import('./components/auth/register/register').then((m) => m.Register),
   },
-  {
-    path: 'admin',
-    loadComponent: () => import('./components/admin/admin').then((m) => m.Admin),
-  },
+
+  { path: '**', redirectTo: 'home' },
 ];

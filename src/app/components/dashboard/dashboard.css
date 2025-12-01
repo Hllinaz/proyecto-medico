@@ -63,12 +63,3 @@ h3 {
 .profile-bar {
   min-width: 200px;
 }
-
-/* === GRID PRINCIPAL === */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr; /* La izquierda es el doble de ancha */
-  gap: var(--gap);
-  flex-grow: 1; /* Ocupa el resto de la altura */
-}
-

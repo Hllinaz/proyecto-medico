@@ -1,19 +1,34 @@
-<div class="col-left">
-  <app-next-patient [userType]="user"></app-next-patient>
+<main class="dashboard-grid">
+  <div class="col-left">
+    <app-next-patient [userType]="userType"></app-next-patient>
 
-  <app-historial />
-</div>
+    <app-historial />
+  </div>
 
-<div class="col-right">
-  <section class="card card-azul">
-    <div class="azul-content">
-      <h2>Cuida tu salud hoy</h2>
-      <p>Agenda tu visita con nuestros especialistas de forma rápida y sencilla.</p>
-    </div>
-    <button class="btn-blanco">Crear una cita +</button>
-  </section>
+  <div class="col-right">
+    @switch (userType) {
+      @case (USER_TYPES.PATIENT) {
+        <section class="card card-azul">
+          <div class="azul-content">
+            <h2>Cuida tu salud hoy</h2>
+            <p>Agenda tu visita con nuestros especialistas de forma rápida y sencilla.</p>
+          </div>
+          <button class="btn-blanco" (click)="redirectToAppoint()" >Crear una cita +</button>
+        </section>
+      }
+      @case (USER_TYPES.DOCTOR) {
+        <section class="card card-azul">
+          <div class="azul-content">
+            <h2>Horario de Atención</h2>
+            <p>Establece un horario para que tus pacientes puedan reservar.</p>
+          </div>
+          <button class="btn-blanco" (click)="redirectToSchedule()">Ver tu horario</button>
+        </section>
+      }
+    }
 
-  <app-details [userType]="user"></app-details>
+    <app-details [userType]="userType"></app-details>
 
-  <section class="card card-vacia"></section>
-</div>
+    <section class="card card-vacia"></section>
+  </div>
+</main>

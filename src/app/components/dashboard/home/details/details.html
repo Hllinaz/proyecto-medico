@@ -2,17 +2,9 @@
 
     <div class="detalle-header">
         <h3>Detalles de la Cita</h3>
-        @switch (stateConfirmed) {
-            @case ('confirmed') {
-                <span class="badge confirmado">Confirmado</span>
-            }
-            @case ('pending') {
-                <span class="badge pendiente">Pendiente</span>
-            }
-            @case ('cancelled') {
-                <span class="badge cancelado">Cancelado</span>
-            }
-        }
+
+        <span class="badge {{statusClass}}">{{statusLabel}}</span>
+
     </div>
 
     <div class="detalle-body">
@@ -30,10 +22,10 @@
                 <div class="doctor-text">
                     <p class="name">{{name}}</p>
                     @switch (userType) {
-                        @case ('doctor') {
+                        @case (USER_TYPES.DOCTOR) {
                             <p class="specialty">{{speciality}}</p>
                         }
-                        @case ('pacient') {
+                        @case (USER_TYPES.PATIENT) {
                             <p class="specialty">Edad: {{age}} años | Tel: {{number}}</p>
                         }
                     }
@@ -55,7 +47,7 @@
         <div class="info-block">
             <label>Motivo de la consulta</label>
             <div class="motivo-box">
-                <p>{{decription}}</p>
+                <p>{{description}}</p>
             </div>
         </div>
 

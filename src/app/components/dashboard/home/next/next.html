@@ -1,19 +1,9 @@
 <section class="card proxima-cita">
     <div class="cita-header">
         <h3>Próxima Cita</h3>
-        
-        @switch (stateConfirmed) {
-            @case ('confirmed') {
-                <span class="badge confirmado">Confirmado</span>
-            }
-            @case ('pending') {
-                <span class="badge pendiente">Pendiente</span>
-            }
-            @case ('cancelled') {
-                <span class="badge cancelado">Cancelado</span>
-            }
-        }
-        
+
+        <span class="badge {{statusClass}}">{{statusLabel}}</span>
+
     </div>
 
     <div class="cita-body">
@@ -46,10 +36,10 @@
                 <div>
                     <p class="doctor-nombre">{{name}}</p>
                     @switch (userType) {
-                        @case ('doctor') {
+                        @case (USER_TYPES.DOCTOR) {
                             <p class="doctor-especialidad">{{speciality}}</p>
                         }
-                        @case ('pacient') {
+                        @case (USER_TYPES.PATIENT) {
                             <p class="doctor-especialidad">Edad: {{age}} años | Tel: {{number}}</p>
                         }
                     }
