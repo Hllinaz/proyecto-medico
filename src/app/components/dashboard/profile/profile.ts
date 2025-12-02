@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { AuthService, MockDataService } from '@app/services';
 
 @Component({
   selector: 'app-profile',

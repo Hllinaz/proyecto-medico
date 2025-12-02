@@ -66,6 +66,10 @@ export class AuthService {
     this.router.navigate(['/auth/login']);
   }
 
+  getAccessToken() {
+    return localStorage.getItem('token');
+  }
+
   getCurrentUser(): User | null {
     return this.currentUserSubject.value;
   }

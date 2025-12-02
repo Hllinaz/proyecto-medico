@@ -39,12 +39,8 @@ h3 {
   /* Altura fija para alineación */
 }
 
-.logo-container {
-}
-
 .logo-container:hover {
   cursor: pointer;
-  background-color: #f5f7fa;
 }
 
 /* --- 1. ESTILOS DEL BUSCADOR --- */
