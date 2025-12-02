@@ -3,73 +3,61 @@ import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
+import { AuthService } from '@services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
+  const auth = inject(AuthService);
 
   console.log(`[Interceptor] ${req.method} ${req.url}`);
 
-  // Obtener token de localStorage
-  const token = localStorage.getItem('token');
+  // Obtener token desde el AuthService (usa 'access' internamente)
+  const token = auth.getAccessToken();
 
-  // Clonar request para agregar headers
-  let clonedReq = req;
+  // Construimos los headers base
+  const baseHeaders: Record<string, string> = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  };
 
+  // Si hay token, agregamos Authorization
   if (token) {
-    clonedReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    });
+    baseHeaders['Authorization'] = `Bearer ${token}`;
     console.log('[Interceptor] Token agregado');
-  } else {
-    clonedReq = req.clone({
-      setHeaders: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    });
   }
 
-  // Agregar header de tipo de usuario si existe
-  const userType = localStorage.getItem('userType');
+  // Agregar header de tipo de usuario si existe (admin/doctor/patient)
+  const userType = auth.getUserType();
   if (userType) {
-    clonedReq = clonedReq.clone({
-      setHeaders: {
-        'X-User-Type': userType,
-      },
-    });
+    baseHeaders['X-User-Type'] = userType;
   }
+
+  const clonedReq = req.clone({
+    setHeaders: baseHeaders,
+  });
 
   // Procesar la request y manejar errores
   return next(clonedReq).pipe(
     catchError((error: HttpErrorResponse) => {
       console.error('[Interceptor] Error:', error);
 
-      // Manejo específico de errores HTTP
       switch (error.status) {
         case 401: // Unauthorized
           console.log('[Interceptor] Token inválido/expirado');
-          localStorage.removeItem('token');
-          localStorage.removeItem('currentUser');
-          localStorage.removeItem('userType');
-          router.navigate(['/auth/login']);
+          // usamos el logout centralizado del AuthService
+          auth.logout();
           break;
 
         case 403: // Forbidden
           console.log('[Interceptor] Acceso denegado');
-          // Podrías redirigir a una página de acceso denegado
           break;
 
-        case 404: // Not Found
+        case 404:
           console.log('[Interceptor] Recurso no encontrado');
           break;
 
-        case 500: // Internal Server Error
+        case 500:
           console.error('[Interceptor] Error del servidor');
-          // Podrías mostrar un toast de error
           break;
 
         default:
