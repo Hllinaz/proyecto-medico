@@ -1,0 +1,46 @@
+<div class="notifications-container">
+  @for (notification of notifications; track notification.id) {
+    <div
+      [class]="'notification notification-' + notification.type"
+      (click)="remove(notification.id)"
+    >
+      <div class="notification-icon">
+        @switch (notification.type) {
+          @case ('success') {
+            <span>✅</span>
+          }
+          @case ('error') {
+            <span>❌</span>
+          }
+          @case ('warning') {
+            <span>⚠️</span>
+          }
+          @case ('info') {
+            <span>ℹ️</span>
+          }
+        }
+      </div>
+
+      <div class="notification-content">
+        <h4>{{ notification.title }}</h4>
+        <p>{{ notification.message }}</p>
+      </div>
+
+      @if (notification.action) {
+        <button
+          class="notification-action"
+          (click)="executeAction(notification); $event.stopPropagation()"
+        >
+          {{ notification.action.label }}
+        </button>
+      }
+
+      <button
+        class="notification-close"
+        (click)="remove(notification.id); $event.stopPropagation()"
+      >
+        ×
+      </button>
+    </div>
+  }
+</div>

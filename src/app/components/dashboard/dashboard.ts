@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, ActivatedRoute } from '@angular/router';
-import { USER_TYPES } from '@constants';
-import type { UserType } from '@models';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet, Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '@app/services';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,18 +8,16 @@ import type { UserType } from '@models';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class Dashboard implements OnInit {
-  currentUserType?: UserType;
+export class Dashboard {
+  auth = inject(AuthService);
+  router = inject(Router);
+  route = inject(ActivatedRoute);
 
-  constructor(private route: ActivatedRoute) {}
+  redirectToProfile() {
+    this.router.navigate(['profile'], { relativeTo: this.route });
+  }
 
-  ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      const typeFromRoute = params.get('type');
-
-      if (typeFromRoute === USER_TYPES.PATIENT || typeFromRoute === USER_TYPES.DOCTOR) {
-        this.currentUserType = typeFromRoute;
-      }
-    });
+  redirectToHome() {
+    this.router.navigate(['home']);
   }
 }

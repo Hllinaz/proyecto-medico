@@ -25,6 +25,9 @@
       ],
       "@interceptors/*": [
         "app/interceptors/*"
+      ],
+      "@validators/*": [
+        "app/validators/*"
       ]
     },
     "outDir": "./out-tsc/app",

@@ -1,13 +1,17 @@
 // services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, from, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '@models';
 
 interface LoginResponse {
   user: User;
   token: string;
+}
+
+interface RegisterResponse {
+  user: User;
 }
 
 @Injectable({
@@ -37,6 +41,21 @@ export class AuthService {
         localStorage.setItem('token', response.token);
       }),
     );
+  }
+
+  register(
+    name: string,
+    lastname: string,
+    email: string,
+    password: string,
+  ): Observable<RegisterResponse> {
+    return this.http
+      .post<RegisterResponse>('/api/auth/register', { name, lastname, email, password })
+      .pipe(
+        tap((response) => {
+          this.currentUserSubject.next(response.user);
+        }),
+      );
   }
 
   logout() {

@@ -25,7 +25,7 @@
                         id="email"
                         formControlName="email"
                         placeholder="Email"
-                        [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                        [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" required>
 
                     @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
                         <div class="error-message">
@@ -40,7 +40,7 @@
                         id="password"
                         formControlName='password'
                         placeholder="Contraseña"
-                        [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                        [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" required>
                     <i class="fa-regular fa-eye-slash toggle-password"></i>
 
                     @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {

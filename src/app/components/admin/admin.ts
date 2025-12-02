@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MockDataService } from '@services';
 import { Doctor, Patient } from '@models';
+import { Router } from '@angular/router';
+import { AuthService } from '@services';
 
 @Component({
   selector: 'app-admin',
@@ -9,11 +11,16 @@ import { Doctor, Patient } from '@models';
   styleUrls: ['../dashboard/dashboard.css', './admin.css'],
 })
 export class Admin implements OnInit {
+  auth = inject(AuthService);
+
   doctors: Doctor[] = [];
   patients: Patient[] = [];
   isLoading = true;
 
-  constructor(private MockData: MockDataService) {}
+  constructor(
+    private MockData: MockDataService,
+    private router: Router,
+  ) {}
 
   kpiData = [
     { label: 'Total Médicos', value: 12, icon: 'bx-user-voice', color: 'icon-blue' },
@@ -23,6 +30,7 @@ export class Admin implements OnInit {
   ];
 
   ngOnInit(): void {
+    console.log('carga datos');
     this.loadData();
   }
 
@@ -49,4 +57,10 @@ export class Admin implements OnInit {
   refreshData() {
     this.loadData();
   }
+
+  redirectToHome() {
+    this.router.navigate(['home']);
+  }
+
+  redirectToProfile() {}
 }

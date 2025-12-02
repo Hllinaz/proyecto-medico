@@ -34,6 +34,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./components/dashboard/schedule/schedule').then((m) => m.Schedule),
       },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./components/dashboard/profile/profile').then((m) => m.Profile),
+      },
     ],
   },
 

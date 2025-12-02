@@ -1,0 +1,104 @@
+<main class="profile-container">
+  <section class="card profile-card">
+    <h2 class="section-title">Configuración de Perfil</h2>
+
+    <form class="profile-form">
+      <div class="avatar-upload-section">
+        <div class="avatar-wrapper">
+          <img
+            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            alt="Foto de perfil"
+            class="big-avatar"
+          />
+          <button type="button" class="btn-camera" title="Cambiar foto">
+            <i class="bx bxs-camera"></i>
+          </button>
+        </div>
+        <p class="avatar-hint">Haz clic en la cámara para subir una nueva foto.</p>
+      </div>
+
+      <hr class="divider" />
+
+      <h3 class="subsection-title">Información Personal</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nombre Completo</label>
+          <div class="input-wrapper">
+            <i class="bx bx-user input-icon"></i>
+            <input type="text" value="Sebastian Jimenez" name="nombre" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Correo Electrónico</label>
+          <div class="input-wrapper">
+            <i class="bx bx-envelope input-icon"></i>
+            <input type="email" value="sebastian@medspace.com" name="email" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Teléfono</label>
+          <div class="input-wrapper">
+            <i class="bx bx-phone input-icon"></i>
+            <input type="tel" value="+57 300 123 4567" name="telefono" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Rol / Especialidad</label>
+          <div class="input-wrapper disabled-wrapper">
+            <i class="bx bx-briefcase input-icon"></i>
+            <input type="text" value="Paciente" readonly disabled />
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <h3 class="subsection-title">Seguridad</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nueva Contraseña</label>
+          <input type="password" placeholder="••••••••" name="new_pass" />
+        </div>
+        <div class="form-group">
+          <label>Confirmar Contraseña</label>
+          <input type="password" placeholder="••••••••" name="confirm_pass" />
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <h3 class="subsection-title">Notificaciones</h3>
+      <div class="preferences-list">
+        <div class="preference-item">
+          <div class="pref-text">
+            <h4>Recordatorios por Correo</h4>
+            <p>Recibir avisos 24h antes de la cita.</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="preference-item">
+          <div class="pref-text">
+            <h4>Notificaciones Push</h4>
+            <p>Avisos emergentes en el navegador.</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-actions-profile">
+        <button type="button" class="btn-cancelar">Cancelar</button>
+        <button type="submit" class="btn-guardar">Guardar Cambios</button>
+      </div>
+    </form>
+  </section>
+</main>

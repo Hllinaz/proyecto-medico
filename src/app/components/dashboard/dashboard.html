@@ -14,38 +14,94 @@
     <div class="main-container">
       <header class="header">
         <div class="logo-container">
-          <div class="logo-icon">
+          <div class="logo-icon" (click)="redirectToHome()">
             <img src="logo.png" alt="Logo" class="logo" />
           </div>
         </div>
 
-        <div class="nav-bar card-shadow">
-          <span>Navegación general + buscador</span>
+        <div class="nav-bar card-shadow search-container">
+          <svg
+            class="search-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#999"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Buscar paciente, fecha o doctor..."
+          />
         </div>
 
-        <div class="profile-bar card-shadow">
-          <span>Editar perfil + notificaciones</span>
+        <div class="profile-bar card-shadow user-actions">
+          <button class="action-btn" title="Notificaciones">
+            <div class="notification-dot"></div>
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+          </button>
+
+          <div class="divider-vertical"></div>
+
+          <button class="action-btn profile-btn" title="Mi Perfil" (click)="redirectToProfile()">
+            <div class="avatar-mini">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <span class="profile-name">Mi Perfil</span>
+          </button>
+
+          <div class="divider-vertical"></div>
+
+          <button class="action-btn logout-btn" title="Cerrar Sesión" (click)="auth.logout()">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#F44336"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
         </div>
       </header>
 
       <router-outlet></router-outlet>
-
     </div>
   </body>
 </html>
-
-<!-- Codigo Angular para la tabla de citas en dashboard.html ----
-    <ng-container *ngIf="listaDeCitas && listaDeCitas.length > 0; else noCitas">
-        <tbody>
-            <tr *ngFor="let cita of listaDeCitas">
-                <td>{{ cita.fecha }}</td>
-                <td>{{ cita.nombrePaciente }}</td>
-                <td>{{ cita.medico }}</td>
-        <td>
-            <span class="badge" [ngClass]="cita.estado">
-                {{ cita.estado }}
-            </span>
-        </td>
-    </tr>
-</tbody>
--->
