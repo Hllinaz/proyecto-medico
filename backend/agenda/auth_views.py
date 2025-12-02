@@ -4,13 +4,13 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import AllowAny   
+from rest_framework.permissions import AllowAny
 
 from .models import Usuario
 
 
 class LoginView(APIView):
-    permission_classes = [AllowAny] 
+    permission_classes = [AllowAny]
 
     def post(self, request):
         email = request.data.get('email')

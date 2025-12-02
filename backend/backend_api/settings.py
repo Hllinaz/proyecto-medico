@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-=_i#-zccmt!+k$%*50=_0jzsdgp%%1#!7wz&vti6eb$0aa&vki
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    'localhost:4200',
+    '127.0.0.1',
+    '127.0.0.1:8000'
+    ]
 
 
 # Application definition
@@ -38,11 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',   # API REST
+    'corsheaders',
     'agenda',
     'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -150,3 +157,24 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'id_usuario',  # <-- nombre del campo PK en tu modelo Usuario
     'USER_ID_CLAIM': 'user_id',     # cómo se llamará en el payload del token
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    ]
+
+CORS_ALLOWED_HEADERS = [
+    "Authorization",
+    "X-User-Type"
+    ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+# También necesitas permitir los métodos OPTIONS para preflight
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',  # Importante para preflight requests
+    'PATCH',
+    'POST',
+    'PUT',
+]
