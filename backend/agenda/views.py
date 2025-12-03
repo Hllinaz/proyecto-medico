@@ -2,13 +2,10 @@ from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.db import DatabaseError
+from django.db import DatabaseError, transaction
 from django.contrib.auth.hashers import make_password
 from django.utils.dateparse import parse_date
 
-
-
-# Create your views here.
 from .models import (
     Rol,
     Usuario,
@@ -28,8 +25,8 @@ from .serializers import (
     HorarioMedicoSerializer,
     CitaSerializer,
     NotificacionSerializer,
-    MedicoListadoSerializer,     
-    PacienteListadoSerializer,   
+    MedicoListadoSerializer,
+    PacienteListadoSerializer,
 )
 
 
@@ -56,8 +53,6 @@ class UsuarioViewSet(viewsets.ModelViewSet):
         usuario = serializer.save()
 
         # ======== AUTO-CREAR PACIENTE O MEDICO SEGÚN EL ROL ======== #
-        # Suponemos que los roles tienen nombres tipo 'PACIENTE', 'MEDICO', 'DOCTOR', etc.
-
         try:
             nombre_rol = (usuario.id_rol.nombre_rol or "").upper()
         except AttributeError:
@@ -66,7 +61,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
         # Si el rol contiene la palabra 'PACIENTE' → crear en tabla paciente
         if "PACIENTE" in nombre_rol:
             Paciente.objects.get_or_create(
-                id_paciente=usuario,  # OneToOne/ForeignKey al usuario
+                id_paciente=usuario,  # OneToOne con usuario
             )
 
         # Si el rol contiene 'MEDICO' o 'DOCTOR' → crear en tabla medico
@@ -82,12 +77,10 @@ class UsuarioViewSet(viewsets.ModelViewSet):
                     'estado': 'ACTIVO',
                 }
             )
-
         # ============================================================ #
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
 
 
 class PacienteViewSet(viewsets.ReadOnlyModelViewSet):
@@ -112,7 +105,6 @@ class PacienteViewSet(viewsets.ReadOnlyModelViewSet):
         citas = Cita.objects.filter(id_paciente=paciente)
         serializer = CitaSerializer(citas, many=True)
         return Response(serializer.data)
-
 
 
 class MedicoViewSet(viewsets.ReadOnlyModelViewSet):
@@ -147,8 +139,6 @@ class MedicoViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
 
-
-
 class MedicoEspecialidadViewSet(viewsets.ModelViewSet):
     queryset = MedicoEspecialidad.objects.all()
     serializer_class = MedicoEspecialidadSerializer
@@ -162,6 +152,51 @@ class HorarioMedicoViewSet(viewsets.ModelViewSet):
 class CitaViewSet(viewsets.ModelViewSet):
     queryset = Cita.objects.all().order_by('fecha_cita', 'hora_inicio')
     serializer_class = CitaSerializer
+
+    def create(self, request, *args, **kwargs):
+        """
+        Crear una cita nueva.
+        - Valida datos con el serializer.
+        - Deja que el trigger en PostgreSQL valide solapamientos.
+        - Si hay solapamiento, responde 400 con mensaje amigable.
+        - Si se crea bien, registra notificaciones para paciente y médico.
+        """
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            with transaction.atomic():
+                # Guardar la cita (aquí se dispara el trigger de 03_logic.sql)
+                cita = serializer.save()
+
+                mensaje = (
+                    f"Cita agendada para el {cita.fecha_cita} "
+                    f"a las {cita.hora_inicio} con el médico {cita.id_medico_id}."
+                )
+
+                # Crear notificación para PACIENTE y MEDICO
+                for user_id in (cita.id_paciente_id, cita.id_medico_id):
+                    Notificacion.objects.create(
+                        tipo='CREACION',
+                        estado='PENDIENTE',
+                        mensaje=mensaje,
+                        id_cita=cita,
+                        id_usuario_destinatario_id=user_id,
+                    )
+        except DatabaseError:
+            # El trigger lanza error cuando hay solapamiento
+            return Response(
+                {
+                    'detail': (
+                        'No se pudo crear la cita porque se solapa con otra '
+                        'cita del mismo médico en ese horario.'
+                    )
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        salida = CitaSerializer(cita)
+        return Response(salida.data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['get'])
     def por_medico(self, request):
@@ -191,10 +226,36 @@ class CitaViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def cancelar(self, request, pk=None):
-        """Cancelar una cita: cambia estado_cita a CANCELADA"""
+        """
+        Cancelar una cita: cambia estado_cita a CANCELADA
+        y registra notificaciones para paciente y médico.
+        """
         cita = self.get_object()
         cita.estado_cita = 'CANCELADA'
-        cita.save()
+
+        try:
+            with transaction.atomic():
+                cita.save()
+
+                mensaje = (
+                    f"Cita CANCELADA para el {cita.fecha_cita} "
+                    f"a las {cita.hora_inicio}."
+                )
+
+                for user_id in (cita.id_paciente_id, cita.id_medico_id):
+                    Notificacion.objects.create(
+                        tipo='CANCELACION',
+                        estado='PENDIENTE',
+                        mensaje=mensaje,
+                        id_cita=cita,
+                        id_usuario_destinatario_id=user_id,
+                    )
+        except DatabaseError as e:
+            return Response(
+                {'detail': f'Error al cancelar la cita: {str(e)}'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
         return Response({'detail': 'Cita cancelada correctamente.'})
 
     @action(detail=True, methods=['post'])
@@ -202,6 +263,7 @@ class CitaViewSet(viewsets.ModelViewSet):
         """
         Reprogramar una cita cambiando fecha/hora.
         El trigger en PostgreSQL valida solapamiento.
+        También se registran notificaciones para paciente y médico.
         """
         cita = self.get_object()
         nueva_fecha = request.data.get('fecha_cita')
@@ -219,14 +281,35 @@ class CitaViewSet(viewsets.ModelViewSet):
         cita.hora_fin = nueva_hora_fin
 
         try:
-            cita.save()  # aquí se dispara el trigger de tu 03_logic.sql
-        except DatabaseError as e:
+            with transaction.atomic():
+                cita.save()  # aquí se dispara el trigger de tu 03_logic.sql
+
+                mensaje = (
+                    f"Cita REPROGRAMADA para el {cita.fecha_cita} "
+                    f"a las {cita.hora_inicio}."
+                )
+
+                for user_id in (cita.id_paciente_id, cita.id_medico_id):
+                    Notificacion.objects.create(
+                        tipo='REPROGRAMACION',
+                        estado='PENDIENTE',
+                        mensaje=mensaje,
+                        id_cita=cita,
+                        id_usuario_destinatario_id=user_id,
+                    )
+        except DatabaseError:
             return Response(
-                {'detail': f'Error al reprogramar la cita: {str(e)}'},
+                {
+                    'detail': (
+                        'No se pudo reprogramar la cita porque se solapa con otra '
+                        'cita del mismo médico en ese horario.'
+                    )
+                },
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         return Response({'detail': 'Cita reprogramada correctamente.'})
+
     @action(detail=False, methods=['get'])
     def estadisticas(self, request):
         """
@@ -263,7 +346,6 @@ class CitaViewSet(viewsets.ModelViewSet):
             'total_citas_dia': total_citas_dia,
             'total_citas_estado': total_citas_estado,
         })
-
 
 
 class NotificacionViewSet(viewsets.ReadOnlyModelViewSet):
