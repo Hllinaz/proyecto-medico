@@ -1,0 +1,45 @@
+<div class="not-found-container">
+  <div class="not-found-content">
+    <div class="error-code">404</div>
+
+    <div class="error-icon">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="80"
+        height="80"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12" y2="16"></line>
+      </svg>
+    </div>
+
+    <h1 class="error-title">¡Página no encontrada!</h1>
+
+    <p class="error-message">Lo sentimos, la página que buscas no existe o ha sido movida.</p>
+
+    <div class="actions">
+      <button (click)="goBack()" class="btn btn-secondary">
+        <span>← Volver</span>
+      </button>
+
+      <button (click)="goHome()" class="btn btn-primary">
+        <span>Ir al Inicio</span>
+      </button>
+    </div>
+
+    <div class="help-text">
+      <p>Si crees que esto es un error, contacta con el administrador.</p>
+      <p>O intenta:</p>
+      <ul>
+        <li>Verificar la URL</li>
+        <li>Usar la búsqueda</li>
+        <li>Revisar nuestros enlaces principales</li>
+      </ul>
+    </div>
+  </div>
+</div>

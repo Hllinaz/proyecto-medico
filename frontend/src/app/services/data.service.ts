@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, tap } from 'rxjs';
-import { Doctor, Patient } from '@models';
+import { Observable, of, tap, map } from 'rxjs';
+import { Doctor, PatientShowAD } from '@models';
 import { API } from '@app/constants';
 import { HttpClient } from '@angular/common/http';
+
+export interface PatientResponse {
+  id_paciente: number;
+  fecha_nacimiento: string;
+  direccion: string;
+  sexo: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  private doctor: Doctor[] = [];
-  private patient: Patient[] = [];
-
   constructor(private http: HttpClient) {}
 
   getCountDoctor(): number {
@@ -37,7 +41,24 @@ export class DataService {
     );
   }
 
-  getPatients(): Observable<Patient[]> {
-    return of(this.patient);
+  getPatients(): Observable<PatientShowAD[]> {
+    return this.http
+      .get<PatientResponse[]>(`${API}/api/pacientes`)
+      .pipe(map((pacientes) => pacientes.map((p) => this.transformPatient(p))));
+  }
+
+  private transformPatient(paciente: PatientResponse): PatientShowAD {
+    const birthDate = new Date(paciente.fecha_nacimiento);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+
+    return {
+      id: paciente.id_paciente,
+      birthDate: birthDate,
+      address: paciente.direccion,
+      gender: paciente.sexo === 'M' ? 'Masculino' : 'Femenino',
+      age: age,
+      isAdult: age >= 18,
+    };
   }
 }

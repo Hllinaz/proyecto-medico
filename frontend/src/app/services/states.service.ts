@@ -19,6 +19,21 @@ export class StateService {
     return labels[userType] || 'Desconocido';
   }
 
+  setAppointment(appointmentStatus: string): AppointmentStatus {
+    switch (appointmentStatus) {
+      case 'AGENDADA':
+        return APPOINTMENT_STATUS.SCHEDULED;
+      case 'CANCELADA':
+        return APPOINTMENT_STATUS.CANCELLED;
+      case 'CONFIRMADA':
+        return APPOINTMENT_STATUS.CONFIRMED;
+      case 'PENDIENTE':
+        return APPOINTMENT_STATUS.PENDING;
+      default:
+        return APPOINTMENT_STATUS.PENDING;
+    }
+  }
+
   validateUserType(type: string | null): UserType | null {
     // Si el tipo es válido, lo usamos, sino usamos paciente por defecto
     if (type && this.isValidUserType(type)) {

@@ -1,30 +1,32 @@
-import { AppointmentStatus } from '@models';
+// models/appointment.model.ts
 
-export interface Appointment {
+// Datos base comunes para creación y edición
+export interface AppointmentBase {
+  patientId: string;
+  patientName: string;
+  specialtyId: string;
+  doctorId: string;
+  date: string; // Formato: YYYY-MM-DD
+  time: string; // Formato: HH:MM
+  reason: string;
+  notes?: string;
+}
+
+// Para creación de nueva cita
+export interface AppointmentCreate extends AppointmentBase {
+  // Puedes agregar propiedades específicas para creación si es necesario
+  isEmergency?: boolean;
+}
+
+// Para edición de cita existente
+export interface Appointment extends AppointmentBase {
   id: string;
-  patientId: string;
-  doctorId: string;
-  date: Date;
-  time: string;
-  doctor: string;
-  specialty: string;
-  status: AppointmentStatus;
-  reason: string;
-  notes: string;
+  appointmentNumber: string;
+  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  originalDate: string;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt?: Date;
 }
 
-export interface AppointmentCreate {
-  patientId: string;
-  doctorId: string;
-  date: Date;
-  time: string;
-  reason: string;
-  notes?: string;
-}
-
-export interface AppointmentUpdate {
-  status?: AppointmentStatus;
-  notes?: string;
-}
+// Tipo union para el formulario
+export type AppointmentFormData = AppointmentCreate | Appointment;

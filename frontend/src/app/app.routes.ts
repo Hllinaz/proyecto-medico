@@ -27,7 +27,23 @@ export const routes: Routes = [
       },
       {
         path: 'appointment',
-        loadComponent: () => import('./components/dashboard/appoinment/cita').then((m) => m.Cita),
+        children: [
+          {
+            path: 'create',
+            loadComponent: () =>
+              import('./components/dashboard/appointment/appointment').then(
+                (m) => m.AppointmentComponent,
+              ),
+          },
+          {
+            path: 'edit/:id', // Considera agregar parámetro para edición específica
+            loadComponent: () =>
+              import('./components/dashboard/appointment/appointment').then(
+                (m) => m.AppointmentComponent,
+              ),
+          },
+          { path: '', redirectTo: 'home', pathMatch: 'full' },
+        ],
       },
       {
         path: 'schedule',
@@ -42,6 +58,7 @@ export const routes: Routes = [
     ],
   },
 
+  // Rutas de autenticación
   {
     path: 'auth/login',
     loadComponent: () => import('./components/auth/login/login').then((m) => m.Login),
@@ -51,5 +68,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/auth/register/register').then((m) => m.Register),
   },
 
-  { path: '**', redirectTo: 'home' },
+  // Ruta para 404 - considerar crear un componente específico
+  {
+    path: '**',
+    loadComponent: () => import('./components/not_found/not_found').then((m) => m.NotFound),
+    // O si prefieres redirigir: redirectTo: 'auth/login'
+  },
 ];

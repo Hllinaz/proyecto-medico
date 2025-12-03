@@ -35,7 +35,7 @@ export class Home implements OnInit {
   }
 
   redirectToAppoint() {
-    this.router.navigate(['appointment'], { relativeTo: this.route.parent });
+    this.router.navigate(['appointment/create'], { relativeTo: this.route.parent });
   }
 
   redirectToSchedule() {

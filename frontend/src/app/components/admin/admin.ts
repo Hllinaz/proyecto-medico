@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DataService } from '@services';
-import { Doctor, Patient } from '@models';
+import { Doctor, PatientShowAD } from '@models';
 import { Router } from '@angular/router';
 import { AuthService } from '@services';
 
@@ -15,7 +15,7 @@ export class Admin implements OnInit {
   data = inject(DataService);
 
   doctors: Doctor[] = [];
-  patients: Patient[] = [];
+  patients: PatientShowAD[] = [];
   isLoading = true;
 
   constructor(private router: Router) {}
@@ -61,6 +61,7 @@ export class Admin implements OnInit {
 
     this.data.getPatients().subscribe((records) => {
       this.patients = records;
+      console.log(this.patients);
     });
 
     this.isLoading = false;

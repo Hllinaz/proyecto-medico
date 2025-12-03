@@ -23,15 +23,16 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    position: relative;
-    overflow: hidden;
+    padding: 20px; /* Agregado espacio para móviles */
 }
 
 /* --- CONTENEDOR PRINCIPAL (TARJETA FLOTANTE) --- */
 .main-container {
     display: flex;
-    width: 900px;          
-    height: 600px;         
+    width: 900px;
+    /* CAMBIO IMPORTANTE: Altura automática para acomodar nuevos campos */
+    min-height: 600px; 
+    height: auto;      
     background-color: var(--card-color);
     border-radius: 20px;   
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); 
@@ -40,39 +41,25 @@ body {
 
 /* --- LADO IZQUIERDO  --- */
 .left-panel {
-    width: 45%;
+    width: 40%; /* Reduje un poco el ancho para dar espacio al formulario */
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start; /* Alineado a la izq */
+    align-items: flex-start; 
     padding: 40px;
     position: relative;
-    border-top-right-radius: 100px;
-    border-bottom-right-radius: 100px;
+    /* Ajuste visual para que cubra todo el alto */
+    min-height: 100%; 
 }
 
 .brand-content {
-    z-index: 2; /* Para que esté encima del círculo decorativo */
-}
-
-.form-header h2 {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 500;
-    margin-bottom: 10px;
-}
-
-.form-header p {
-    text-align: center;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 30px;
+    z-index: 2;
 }
 
 .brand-content h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
     margin-bottom: 15px;
     line-height: 1.1;
@@ -101,7 +88,7 @@ body {
 
 .right-panel {
     width: 60%;
-    padding: 40px 50px; /* Más espacio interno */
+    padding: 40px 50px; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -117,7 +104,7 @@ body {
 .form-header p {
     color: var(--placeholder-color);
     font-size: 0.9rem;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 /* --- INPUTS --- */
@@ -139,17 +126,21 @@ label {
     color: var(--text-color);
 }
 
-input {
+/* CAMBIO: Agregué 'select' aquí para que tenga el mismo estilo que input */
+input, select {
     width: 100%;
     padding: 12px 15px;
     background-color: var(--input-background);
-    border: 1px solid transparent; /* Sin borde visible por defecto */
+    border: 1px solid transparent; 
     border-radius: 8px;
-    font-family: 'Poppins', sans-serif; /* Asegurar fuente en inputs */
+    font-family: 'Poppins', sans-serif; 
     font-size: 0.9rem;
     color: var(--text-color);
     transition: all 0.3s ease;
     outline: none;
+    /* Propiedad extra para el select */
+    appearance: none; 
+    -webkit-appearance: none;
 }
 
 /* Placeholder color */
@@ -157,18 +148,18 @@ input::placeholder {
     color: var(--placeholder-color);
 }
 
-/* Estado Focus del Input */
-input:focus {
+/* Estado Focus del Input y Select */
+input:focus, select:focus {
     border-color: var(--primary-color);
     background-color: #fff;
-    box-shadow: 0 0 0 4px rgba(51, 184, 232, 0.1); /* Resplandor azul cian suave */
+    box-shadow: 0 0 0 4px rgba(51, 184, 232, 0.1); 
 }
 
 /* --- BOTÓN --- */
 .btn-submit {
     width: 100%;
     padding: 12px;
-    background-color: var(--secondary-color); /* Usamos el azul fuerte para el botón */
+    background-color: var(--secondary-color);
     color: white;
     border: none;
     border-radius: 8px;
@@ -181,8 +172,8 @@ input:focus {
 }
 
 .btn-submit:hover {
-    background-color: var(--card-background); /* Cambio de tono al pasar el mouse */
-    transform: translateY(-1px); /* Pequeña elevación */
+    background-color: var(--card-background); 
+    transform: translateY(-1px); 
 }
 
 /* --- FOOTER --- */
@@ -201,4 +192,26 @@ input:focus {
 
 .form-footer a:hover {
     text-decoration: underline;
+}
+
+/* Responsive básico */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+    }
+    .left-panel, .right-panel {
+        width: 100%;
+        border-radius: 0;
+    }
+    .left-panel {
+        padding: 30px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
 }

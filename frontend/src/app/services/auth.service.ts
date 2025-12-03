@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, from, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { UserType } from '@models';
+import { UserCreate, UserType } from '@models';
 import { API } from '@app/constants';
 import { StateService } from '@services';
 
@@ -18,7 +18,7 @@ interface RegisterResponse {
   user: User;
 }
 
-interface User {
+export interface User {
   id: string;
   type: string;
 }
@@ -62,15 +62,19 @@ export class AuthService {
     );
   }
 
-  register(
-    name: string,
-    lastname: string,
-    email: string,
-    password: string,
-  ): Observable<RegisterResponse> {
-    return this.http
-      .post<RegisterResponse>('/api/auth/register', { name, lastname, email, password })
-      .pipe(tap((response) => {}));
+  register(user: UserCreate): Observable<RegisterResponse> {
+    const userFormat = {
+      nombre: user.name,
+      apellido: user.lastname,
+      tipo_documento: user.doc_type,
+      numero_documetno: user.document,
+      email: user.email,
+      telefono: user.number,
+      password_hash: user.password,
+      id_rol: 1,
+    };
+
+    return this.http.post<RegisterResponse>(`${API}/api/usuarios/`, userFormat);
   }
 
   logout() {

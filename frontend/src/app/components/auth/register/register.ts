@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { AuthService, NotificationService } from '@services';
 import { CustomValidators } from '@validators/custom.validators';
+import { UserCreate } from '@app/models';
 
 @Component({
   selector: 'app-register',
@@ -29,6 +30,9 @@ export class Register implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
+        doc_type: ['', Validators.required],
+        document: ['', [Validators.required, Validators.minLength(6)]],
+        number: ['', Validators.required],
       },
       {
         validators: CustomValidators.match('password', 'confirmPassword'),
@@ -52,11 +56,19 @@ export class Register implements OnInit {
       this.loading = true;
       this.error = '';
 
-      const { name, lastname, email, password } = this.loginForm.value;
+      const { name, lastname, email, password, doc_type, document, number } = this.loginForm.value;
 
-      console.log({ name, lastname, email, password });
+      const user: UserCreate = {
+        name: name,
+        lastname: lastname,
+        email: email,
+        password: password,
+        doc_type: doc_type,
+        document: document,
+        number: number,
+      };
 
-      this.authService.register(name, lastname, email, password).subscribe({
+      this.authService.register(user).subscribe({
         next: (response) => {
           console.log('Respuesta del register:', response);
           this.loading = false;
@@ -67,6 +79,7 @@ export class Register implements OnInit {
           } else {
             alert(`Respuesta invalida ${response}`);
             console.log('Respuesta invalida:', response);
+            this.router.navigate(['auth/register']);
           }
         },
         error: (error) => {
@@ -80,6 +93,9 @@ export class Register implements OnInit {
       console.log('Formulario no válido');
       console.log('Errores email:', this.loginForm.get('email')?.errors);
       console.log('Errores password:', this.loginForm.get('password')?.errors);
+      console.log('Errores number:', this.loginForm.get('number')?.errors);
+      console.log('Errores doc_type:', this.loginForm.get('doc_type')?.errors);
+      console.log('Errores document:', this.loginForm.get('document')?.errors);
     }
   }
 }

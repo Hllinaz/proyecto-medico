@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { StateService } from '@services';
 import { APPOINTMENT_STATUS, USER_TYPES } from '@constants';
 import { UserType } from '@app/models';
@@ -9,6 +10,10 @@ import { UserType } from '@app/models';
   styleUrl: './details.css',
 })
 export class Details {
+  private state = inject(StateService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   readonly USER_TYPES = USER_TYPES;
   @Input() userType?: UserType;
   date = '';
@@ -21,8 +26,6 @@ export class Details {
 
   statusState = APPOINTMENT_STATUS.CONFIRMED;
 
-  constructor(private state: StateService) {}
-
   // Usar getters para obtener valores dinámicos
   get statusLabel(): string {
     return this.state.getStatusLabel(this.statusState);
@@ -30,5 +33,9 @@ export class Details {
 
   get statusClass(): string {
     return this.state.getStatusClass(this.statusState);
+  }
+
+  redirectToAppoint() {
+    this.router.navigate(['appointment/edit'], { relativeTo: this.route.parent });
   }
 }

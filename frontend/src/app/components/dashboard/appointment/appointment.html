@@ -1,0 +1,146 @@
+<!-- appointment-form.component.html -->
+<main class="edit-layout">
+  <section class="card edit-form-card">
+    <div class="form-header-row">
+      <div>
+        <h2 class="form-title">{{ getFormTitle() }}</h2>
+        @if (actualRoute === 'edit' && getAppointmentId()) {
+          <p class="subtitle">ID de Cita: #{{ getAppointmentId() }}</p>
+        }
+      </div>
+      @if (actualRoute === 'edit' && getAppointmentStatus()) {
+        <span class="badge" [class]="getAppointmentStatus().toLowerCase()">
+          {{ getAppointmentStatus() }}
+        </span>
+      }
+    </div>
+
+    @if (actualRoute === 'edit') {
+      <div class="info-alert">
+        <i class="bx bx-info-circle"></i>
+        <p>
+          Nota: Reprogramar la cita con menos de 24 horas de antelación puede generar cargos
+          adicionales.
+        </p>
+      </div>
+    }
+
+    <form class="edit-form" (ngSubmit)="onSubmit()" #appointmentForm="ngForm">
+      <div class="form-group full-width">
+        <label>Paciente</label>
+        <div class="input-readonly-wrapper">
+          <i class="bx bx-user"></i>
+            <input type="text" [value]="getPatientName()" readonly />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Especialidad</label>
+          <select
+            [(ngModel)]="formData.specialtyId"
+            name="specialtyId"
+            required
+            (change)="onSpecialtyChange()"
+          >
+            <option value="">Seleccionar especialidad</option>
+            @for (spec of specialities; track spec.id) {
+              <option [value]="spec.id">{{ spec.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Doctor Asignado</label>
+          <select
+            [(ngModel)]="formData.doctorId"
+            name="doctorId"
+            required
+            [disabled]="!formData.specialtyId"
+          >
+            <option value="">Seleccionar doctor</option>
+            @for (doctor of filteredDoctors; track doctor.id) {
+              <option [value]="doctor.id">{{ doctor.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>{{ actualRoute === 'edit' ? 'Nueva Fecha' : 'Fecha' }}</label>
+          <input
+            type="date"
+            [(ngModel)]="formData.date"
+            name="date"
+            required
+            [min]="actualRoute === 'create' ? getTomorrowDate() : ''"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>{{ actualRoute === 'edit' ? 'Nueva Hora' : 'Hora' }}</label>
+          <input
+            type="time"
+            [(ngModel)]="formData.time"
+            name="time"
+            required
+            min="08:00"
+            max="18:00"
+          />
+        </div>
+      </div>
+
+      <div class="form-group full-width">
+        <label>Motivo / Notas adicionales</label>
+        @if (actualRoute === 'edit') {
+          <textarea
+            rows="4"
+            [(ngModel)]="formData.reason"
+            name="reason"
+            placeholder="Describe brevemente tus síntomas o la razón de la visita..."
+          ></textarea>
+        } @else {
+          <textarea
+            rows="4"
+            [(ngModel)]="formData.reason"
+            name="reason"
+            placeholder="Describe brevemente tus síntomas o la razón de la visita..."
+          ></textarea>
+        }
+
+        <!-- Campo para notas adicionales -->
+        @if (actualRoute === 'edit') {
+        <div class="additional-notes">
+          <label>Notas adicionales (opcional)</label>
+          <textarea
+            rows="2"
+            [(ngModel)]="formData.notes"
+            name="notes"
+            placeholder="Agregar notas adicionales..."
+          ></textarea>
+        </div>
+        }
+
+      </div>
+
+      <div class="form-actions-edit">
+        @if (actualRoute === 'edit') {
+          <button type="button" class="btn-danger-text" (click)="onCancelAppointment()">
+            <i class="bx bx-trash"></i> Cancelar esta Cita
+          </button>
+        }
+
+        <div class="right-buttons">
+          <button type="button" class="btn-cancelar" (click)="redirectToHome()">
+            Volver
+          </button>
+          <button type="submit" class="btn-guardar" [disabled]="!appointmentForm.form.valid">
+            <i class="bx bx-save"></i>
+            {{ actualRoute === 'edit' ? 'Guardar Cambios' : 'Crear Cita' }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </section>
+</main>

@@ -10,28 +10,41 @@
                 </tr>
             </thead>
             <tbody>
-                @for (app of appoindments; track app.id) {
-                <tr>
-                    <td>{{ app.date }}</td>
-                    <td>{{ app.name }}</td>
-                    <td>{{ app.doctor }}</td>
+            @if (!isLoading()) {
+              @if (appointments().length > 0) {
+                @for (app of appointments(); track app.id) {
+                  <tr>
+                      <td>{{ app.date }}</td>
+                      <td>{{ app.name }}</td>
+                      <td>{{ app.doctor }}</td>
 
-                    <td>
+                      <td>
                         @switch (app.stateConfirmed) {
-                            @case ('confirmed') {
-                                <span class="badge confirmado">Confirmado</span>
+                            @case (APPOINTMENT_STATUS.CONFIRMED) {
+                                  <span class="badge confirmado">Confirmado</span>
                                 }
-                                @case ('pending') {
-                                    <span class="badge pendiente">Pendiente</span>
+                                @case (APPOINTMENT_STATUS.PENDING) {
+                                  <span class="badge pendiente">Pendiente</span>
                                 }
-                                @case ('cancelled') {
-                                    <span class="badge cancelado">Cancelado</span>
+                                @case (APPOINTMENT_STATUS.CANCELLED) {
+                                  <span class="badge cancelado">Cancelado</span>
+                                }
+                                @case (APPOINTMENT_STATUS.SCHEDULED) {
+                                  <span class="badge pendiente">Programado</span>
                                 }
                             }
-                    </td>
-                </tr>
+                      </td>
+                  </tr>
                 }
-            </tbody>
+
+              } @else {
+                <p>No hay citas registradas.</p>
+              }
+            } @else {
+              <p>Cargando citas...</p>
+              <div class="spinner"></div>
+            }
+                            </tbody>
         </table>
     </div>
 </section>
