@@ -66,6 +66,7 @@ class Medico(models.Model):
 
 
 class MedicoEspecialidad(models.Model):
+    id = models.AutoField(primary_key=True, db_column='id')
     id_medico = models.ForeignKey(
         Medico,
         models.DO_NOTHING,
@@ -77,6 +78,7 @@ class MedicoEspecialidad(models.Model):
         db_table = 'medico_especialidad'
         managed = False
         unique_together = (('id_medico', 'especialidad'),)
+
 
 
 class HorarioMedico(models.Model):
