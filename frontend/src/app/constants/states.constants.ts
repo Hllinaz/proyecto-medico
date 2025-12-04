@@ -13,4 +13,5 @@ export const APPOINTMENT_STATUS = {
   PENDING: 'pending',
 } as const;
 
-export const API: string = 'http://127.0.0.1:8000';
+export const API: string = 'http://localhost:8000/api';
+

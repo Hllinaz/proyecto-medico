@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 from datetime import timedelta
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,12 +26,8 @@ SECRET_KEY = 'django-insecure-=_i#-zccmt!+k$%*50=_0jzsdgp%%1#!7wz&vti6eb$0aa&vki
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'localhost',
-    'localhost:4200',
-    '127.0.0.1',
-    '127.0.0.1:8000'
-    ]
+ALLOWED_HOSTS = ["*"]
+
 
 
 # Application definition
@@ -85,13 +82,14 @@ WSGI_APPLICATION = 'backend_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'clinica',        # Nombre de tu BD en PostgreSQL
-        'USER': 'postgres',       # Usuario de PostgreSQL
-        'PASSWORD': 'Valentina021204',
-        'HOST': 'localhost',      # O el host del contenedor si usas Docker
-        'PORT': '5432',
+        'NAME': os.environ.get('DB_NAME', 'clinica'),
+        'USER': os.environ.get('DB_USER', 'admin'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'admin123'),
+        'HOST': os.environ.get('DB_HOST', 'db'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
+
 
 
 # Password validation
