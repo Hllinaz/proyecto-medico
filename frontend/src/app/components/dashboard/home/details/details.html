@@ -2,15 +2,19 @@
 
     <div class="detalle-header">
         <h3>Detalles de la Cita</h3>
-
-        <span class="badge {{statusClass}}">{{statusLabel}}</span>
-
+        @if (id()) {
+          <span class="badge {{statusClass}}">{{statusLabel}}</span>
+        }
     </div>
 
     <div class="detalle-body">
 
         <div class="info-block">
-            <label>Especialista</label>
+            @if (userType === USER_TYPES.PATIENT) {
+              <label>Especialista</label>
+            } @else {
+              <label>Paciente</label>
+            }
             <div class="doctor-profile">
                 <div class="avatar-circle">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
@@ -20,14 +24,12 @@
                     </svg>
                 </div>
                 <div class="doctor-text">
-                    <p class="name">{{name}}</p>
-                    @switch (userType) {
-                        @case (USER_TYPES.DOCTOR) {
-                            <p class="specialty">{{speciality}}</p>
-                        }
-                        @case (USER_TYPES.PATIENT) {
-                            <p class="specialty">Edad: {{age}} años | Tel: {{number}}</p>
-                        }
+                    @if (userType === USER_TYPES.PATIENT) {
+                      <p class="name">{{doctor()?.name}} {{doctor()?.lastname}}</p>
+                      <p class="specialty">{{speciality}}</p>
+                    } @else {
+                      <p class="name">{{user()?.name}} {{user()?.lastname}}</p>
+                      <p class="specialty">Edad: {{age}} años | Tel: {{number}}</p>
                     }
                 </div>
             </div>
@@ -36,24 +38,27 @@
         <div class="grid-2-col">
             <div class="info-block">
                 <label>Fecha</label>
-                <p class="data-text">{{date}}</p>
+                <p class="data-text">{{cita()?.appointment_date?.getFullYear()}} -
+                {{cita()?.appointment_date?.getMonth()}} - {{cita()?.appointment_date?.getDate()}}</p>
             </div>
             <div class="info-block">
                 <label>Hora</label>
-                <p class="data-text">{{hour}}</p>
+                <p class="data-text">{{cita()?.start_hour}} - {{cita()?.end_hour}}</p>
             </div>
         </div>
 
         <div class="info-block">
             <label>Motivo de la consulta</label>
             <div class="motivo-box">
-                <p>{{description}}</p>
+                <p>{{cita()?.note}}</p>
             </div>
         </div>
 
         <div class="action-buttons">
-            <button class="btn-outline" (click)="redirectToAppoint()">Reagendar</button>
-            <button class="btn-danger-outline">Cancelar Cita</button>
+            @if (cita()?.status !== APPOINTMENT_STATUS.CANCELLED && cita()) {
+              <button class="btn-outline" (click)="redirectToAppoint()">Reagendar</button>
+              <button class="btn-danger-outline" (click)="cancelAppointment()">Cancelar Cita</button>
+            }
         </div>
 
     </div>

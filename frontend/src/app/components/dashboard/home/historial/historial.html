@@ -7,19 +7,20 @@
                     <th>Nombre</th>
                     <th>Médico</th>
                     <th>Estado</th>
+                    <th>Detalles</th>
                 </tr>
             </thead>
             <tbody>
             @if (!isLoading()) {
-              @if (appointments().length > 0) {
-                @for (app of appointments(); track app.id) {
+              @if (appointments.length > 0) {
+                @for (app of appointments; track app.id) {
                   <tr>
-                      <td>{{ app.date }}</td>
-                      <td>{{ app.name }}</td>
-                      <td>{{ app.doctor }}</td>
+                      <td>{{ app.appointment_date.getFullYear() }}-{{ app.appointment_date.getMonth() }}-{{ app.appointment_date.getDate() }}</td>
+                      <td>{{ app.patient_id }}</td>
+                      <td>{{ app.doctor_id }}</td>
 
                       <td>
-                        @switch (app.stateConfirmed) {
+                        @switch (app.status) {
                             @case (APPOINTMENT_STATUS.CONFIRMED) {
                                   <span class="badge confirmado">Confirmado</span>
                                 }
@@ -33,6 +34,12 @@
                                   <span class="badge pendiente">Programado</span>
                                 }
                             }
+                      </td>
+                      <td>
+                        <button class="btn-outline" title="Detalles"
+                        (click)=viewDetalles(app.id)>
+                          Ver Detalles
+                        </button>
                       </td>
                   </tr>
                 }

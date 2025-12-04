@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { DataService } from '@services';
-import { Doctor, PatientShowAD } from '@models';
+import { Doctor, Stadistic, Patient } from '@models';
 import { Router } from '@angular/router';
 import { AuthService } from '@services';
 
@@ -13,39 +13,54 @@ import { AuthService } from '@services';
 export class Admin implements OnInit {
   auth = inject(AuthService);
   data = inject(DataService);
+  router = inject(Router);
 
-  doctors: Doctor[] = [];
-  patients: PatientShowAD[] = [];
-  isLoading = true;
+  // Signals
+  stadistics = signal<Stadistic | null>(null);
+  doctors = signal<Doctor[]>([]);
+  patients = signal<Patient[]>([]);
+  isLoading = signal(true);
 
-  constructor(private router: Router) {}
+  // Computed signal para kpiData
+  kpiData = computed(() => {
+    const stats = this.stadistics();
 
-  kpiData = [
-    {
-      label: 'Total Médicos',
-      value: this.data.getCountDoctor(),
-      icon: 'bx-user-voice',
-      color: 'icon-blue',
-    },
-    {
-      label: 'Total Pacientes',
-      value: this.data.getCountPatient(),
-      icon: 'bx-user',
-      color: 'icon-green',
-    },
-    {
-      label: 'Citas Hoy',
-      value: this.data.getCountAppointment(),
-      icon: 'bx-calendar-check',
-      color: 'icon-orange',
-    },
-    {
-      label: 'Solicitudes',
-      value: this.data.getCountSolitude(),
-      icon: 'bx-envelope',
-      color: 'icon-red',
-    },
-  ];
+    if (!stats) {
+      return [
+        { label: 'Total Médicos', value: 0, icon: 'bx-user-voice', color: 'icon-blue' },
+        { label: 'Total Pacientes', value: 0, icon: 'bx-user', color: 'icon-green' },
+        { label: 'Citas Hoy', value: 0, icon: 'bx-calendar-check', color: 'icon-orange' },
+        { label: 'Solicitudes', value: 0, icon: 'bx-envelope', color: 'icon-red' },
+      ];
+    }
+
+    return [
+      {
+        label: 'Total Médicos',
+        value: stats.total_medicos,
+        icon: 'bx-user-voice',
+        color: 'icon-blue',
+      },
+      {
+        label: 'Total Pacientes',
+        value: stats.total_pacientes,
+        icon: 'bx-user',
+        color: 'icon-green',
+      },
+      {
+        label: 'Citas Hoy',
+        value: stats.total_citas_dia,
+        icon: 'bx-calendar-check',
+        color: 'icon-orange',
+      },
+      {
+        label: 'Solicitudes',
+        value: stats.total_citas_estado,
+        icon: 'bx-envelope',
+        color: 'icon-red',
+      },
+    ];
+  });
 
   ngOnInit(): void {
     console.log('carga datos');
@@ -53,23 +68,29 @@ export class Admin implements OnInit {
   }
 
   loadData() {
-    this.isLoading = true;
+    const date = new Date().toISOString().split('T')[0];
+
+    this.isLoading.set(true);
+
+    this.data.getStadistics(date, 'AGENDADA').subscribe((stadistics) => {
+      this.stadistics.set(stadistics);
+      console.log(stadistics);
+    });
 
     this.data.getDoctors().subscribe((records) => {
-      this.doctors = records;
+      this.doctors.set(records);
     });
 
     this.data.getPatients().subscribe((records) => {
-      this.patients = records;
-      console.log(this.patients);
+      this.patients.set(records);
+      console.log(records);
+      this.isLoading.set(false);
     });
-
-    this.isLoading = false;
   }
 
-  getStatus(status: String) {
-    const statusText = status === 'active' ? 'Activo' : 'Inactivo';
-    const statusClass = status === 'active' ? 'active' : 'inactive';
+  getStatus(status: string) {
+    const statusText = status === 'ACTIVO' ? 'Activo' : 'Inactivo';
+    const statusClass = status === 'ACTIVO' ? 'active' : 'inactive';
     return { text: statusText, class: statusClass };
   }
 
@@ -79,6 +100,10 @@ export class Admin implements OnInit {
 
   redirectToHome() {
     this.router.navigate(['home']);
+  }
+
+  registerDoctor() {
+    this.router.navigate(['/admin/register']);
   }
 
   redirectToProfile() {}

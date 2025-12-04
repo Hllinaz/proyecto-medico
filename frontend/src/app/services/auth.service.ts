@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { UserCreate, UserType } from '@models';
 import { API } from '@app/constants';
 import { StateService } from '@services';
+import { User } from '@models';
 
 interface LoginResponse {
   access: string;
@@ -15,10 +16,10 @@ interface LoginResponse {
 }
 
 interface RegisterResponse {
-  user: User;
+  user: UserId;
 }
 
-export interface User {
+export interface UserId {
   id: string;
   type: string;
 }
@@ -27,7 +28,7 @@ export interface User {
   providedIn: 'root',
 })
 export class AuthService {
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  private currentUserSubject = new BehaviorSubject<UserId | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(
@@ -36,7 +37,7 @@ export class AuthService {
     private stateService: StateService,
   ) {
     // Verificar si hay un usuario en localStorage al inicializar
-    const savedUser: User = {
+    const savedUser: UserId = {
       id: localStorage.getItem('user') || '',
       type: localStorage.getItem('type') || '',
     };
@@ -62,16 +63,16 @@ export class AuthService {
     );
   }
 
-  register(user: UserCreate): Observable<RegisterResponse> {
+  register(user: UserCreate | any, id_rol = 3): Observable<RegisterResponse> {
     const userFormat = {
-      nombre: user.name,
-      apellido: user.lastname,
-      tipo_documento: user.doc_type,
-      numero_documetno: user.document,
-      email: user.email,
-      telefono: user.number,
-      password_hash: user.password,
-      id_rol: 1,
+      nombre: user.name | user.nombre,
+      apellido: user.lastname | user.apellido,
+      tipo_documento: user.doc_type | user.tipo_documento,
+      numero_documento: user.document | user.numero_documento,
+      email: user.email | user.email,
+      telefono: user.number | user.numero,
+      password_hash: user.password | user.password,
+      id_rol: id_rol,
     };
 
     return this.http.post<RegisterResponse>(`${API}/api/usuarios/`, userFormat);
@@ -87,11 +88,28 @@ export class AuthService {
     this.router.navigate(['/auth/login']);
   }
 
+  getUserData(): User | null {
+    try {
+      const userData = localStorage.getItem('userData');
+      // Verificar si hay datos
+      if (!userData || userData.trim() === '') {
+        return null;
+      }
+
+      const parsed = JSON.parse(userData);
+
+      return parsed;
+    } catch (error) {
+      console.error('Error al parsear userData:', error);
+      return null;
+    }
+  }
+
   getAccessToken() {
     return localStorage.getItem('access_token');
   }
 
-  getCurrentUser(): User | null {
+  getCurrentUser(): UserId | null {
     return this.currentUserSubject.value;
   }
 

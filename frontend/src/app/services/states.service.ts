@@ -65,7 +65,7 @@ export class StateService {
       [this.APPOINTMENT_STATUS.CONFIRMED]: 'Confirmado',
       [this.APPOINTMENT_STATUS.COMPLETED]: 'Completado',
       [this.APPOINTMENT_STATUS.CANCELLED]: 'Cancelado',
-      [this.APPOINTMENT_STATUS.SCHEDULED]: 'Listado',
+      [this.APPOINTMENT_STATUS.SCHEDULED]: 'Programado',
     };
     return labels[appointmentStatus] || 'Error';
   }
@@ -76,7 +76,7 @@ export class StateService {
       [this.APPOINTMENT_STATUS.CONFIRMED]: 'confirmado',
       [this.APPOINTMENT_STATUS.COMPLETED]: 'completado',
       [this.APPOINTMENT_STATUS.CANCELLED]: 'cancelado',
-      [this.APPOINTMENT_STATUS.SCHEDULED]: 'listado',
+      [this.APPOINTMENT_STATUS.SCHEDULED]: 'pendiente',
     };
     return labels[appointmentStatus] || 'Error';
   }

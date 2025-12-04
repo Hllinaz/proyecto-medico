@@ -1,223 +1,228 @@
 /* --- LAYOUT ADMIN --- */
 .admin-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-bottom: 50px;
 }
 
 /* 1. SECCIÓN DE ESTADÍSTICAS (KPIs) */
 .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
 }
 
 .stat-card {
-    background: var(--bg-card);
-    padding: 25px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: transform 0.2s;
+  background: var(--bg-card);
+  padding: 25px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s;
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .stat-info p {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 5px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 5px;
 }
 
 .stat-info h3 {
-    font-size: 1.8rem;
-    color: var(--text-main);
-    font-weight: 600;
-    margin: 0;
+  font-size: 1.8rem;
+  color: var(--text-main);
+  font-weight: 600;
+  margin: 0;
 }
 
 .stat-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
 }
 
 /* Colores de Iconos */
-.icon-blue { background: #E3F2FD; color: var(--primary-blue); }
-.icon-green { background: #E8F5E9; color: var(--green); }
-.icon-orange { background: #FFF3E0; color: #FFA726; }
-.icon-red { background: #FFEBEE; color: var(--red); }
-
+.icon-blue {
+  background: #e3f2fd;
+  color: var(--primary-blue);
+}
+.icon-green {
+  background: #e8f5e9;
+  color: var(--green);
+}
+.icon-orange {
+  background: #fff3e0;
+  color: #ffa726;
+}
+.icon-red {
+  background: #ffebee;
+  color: var(--red);
+}
 
 /* 2. TABLAS DE ADMINISTRACIÓN */
 .tables-grid-admin {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr; /* Médicos un poco más ancho */
-    gap: 20px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr; /* Médicos un poco más ancho */
+  gap: 20px;
 }
 
 .admin-card {
-    padding: 0; /* Quitamos padding para que el footer toque bordes */
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+  padding: 0; /* Quitamos padding para que el footer toque bordes */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-header-admin {
-    padding: 20px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #f0f0f0;
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .card-header-admin h3 {
-    margin: 0;
-    font-size: 1.1rem;
+  margin: 0;
+  font-size: 1.1rem;
 }
 
 /* Tabla Específica de Admin */
 .admin-table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .admin-table th {
-    padding: 15px 25px;
-    text-align: left;
-    font-size: 0.85rem;
-    color: #999;
-    font-weight: 600;
-    background: #fcfcfc;
+  padding: 15px 25px;
+  text-align: left;
+  font-size: 0.85rem;
+  color: #999;
+  font-weight: 600;
+  background: #fcfcfc;
 }
 
 .admin-table td {
-    padding: 15px 25px;
-    border-bottom: 1px solid #f5f5f5;
-    vertical-align: middle;
+  padding: 15px 25px;
+  border-bottom: 1px solid #f5f5f5;
+  vertical-align: middle;
 }
 
 /* Celda de Usuario (Foto + Nombre) */
 .user-cell {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.user-cell img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .user-cell span {
-    font-weight: 500;
-    font-size: 0.95rem;
+  font-weight: 500;
+  font-size: 0.95rem;
 }
-
-/* Avatar con iniciales (si no hay foto) */
-.initial-avatar {
-    width: 35px;
-    height: 35px;
-    background: #E3F2FD;
-    color: var(--primary-blue);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.initial-avatar.pink { background: #FCE4EC; color: #D81B60; }
 
 /* Indicador de Estado */
 .status-dot {
-    height: 8px;
-    width: 8px;
-    background-color: #ccc;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
+  height: 8px;
+  width: 8px;
+  background-color: #ccc;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
 }
 
-.status-dot.active { background-color: var(--green); }
-.status-dot.inactive { background-color: var(--red); }
+.status-dot.active {
+  background-color: var(--green);
+}
+.status-dot.inactive {
+  background-color: var(--red);
+}
 
 /* Botones de Acción en Tabla */
 .action-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1rem;
-    padding: 5px;
-    border-radius: 5px;
-    transition: background 0.2s;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background 0.2s;
 }
 
-.edit { color: var(--primary-blue); }
-.edit:hover { background: #E3F2FD; }
+.edit {
+  color: var(--primary-blue);
+}
+.edit:hover {
+  background: #e3f2fd;
+}
 
-.delete { color: var(--red); }
-.delete:hover { background: #FFEBEE; }
+.delete {
+  color: var(--red);
+}
+.delete:hover {
+  background: #ffebee;
+}
 
-.view { color: #777; }
-.view:hover { background: #f0f0f0; color: #333; }
+.view {
+  color: #777;
+}
+.view:hover {
+  background: #f0f0f0;
+  color: #333;
+}
 
 /* Botones de Cabecera */
 .btn-small-primary {
-    background: var(--primary-blue);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  background: var(--primary-blue);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .btn-small-outline {
-    background: white;
-    border: 1px solid #ddd;
-    color: var(--text-secondary);
-    padding: 8px 15px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  background: white;
+  border: 1px solid #ddd;
+  color: var(--text-secondary);
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .card-footer {
-    padding: 15px;
-    text-align: center;
-    border-top: 1px solid #f0f0f0;
-    margin-top: auto;
+  padding: 15px;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+  margin-top: auto;
 }
 
 .card-footer a {
-    font-size: 0.85rem;
-    color: var(--primary-blue);
-    text-decoration: none;
-    font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 500;
 }
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-    .tables-grid-admin {
-        grid-template-columns: 1fr;
-    }
+  .tables-grid-admin {
+    grid-template-columns: 1fr;
+  }
 }

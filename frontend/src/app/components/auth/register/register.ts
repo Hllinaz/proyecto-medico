@@ -72,15 +72,8 @@ export class Register implements OnInit {
         next: (response) => {
           console.log('Respuesta del register:', response);
           this.loading = false;
-
-          if (response && response.user) {
-            console.log('Redirigiendo usuario');
-            this.router.navigate(['/']);
-          } else {
-            alert(`Respuesta invalida ${response}`);
-            console.log('Respuesta invalida:', response);
-            this.router.navigate(['auth/register']);
-          }
+          console.log('Redirigiendo usuario');
+          this.router.navigate(['/']);
         },
         error: (error) => {
           alert(`Error al registrarse: ${error.message}`);

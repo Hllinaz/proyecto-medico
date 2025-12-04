@@ -1,0 +1,382 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  padding: 25px;
+  min-height: 100vh;
+}
+
+.main-container {
+  max-width: 1200px;
+  /* Ancho máximo controlado para formularios */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  height: 120px;
+  max-width: 100%;
+  display: block;
+}
+
+/* =========================================
+   2. HEADER MODERNO (COMPLETO)
+   ========================================= */
+.header-moderno {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-card);
+  padding: 0 30px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 30px;
+  gap: 20px;
+  height: 80px;
+  width: 100%;
+}
+
+/* Logo */
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 180px;
+}
+
+.logo-icon-brand {
+  font-size: 2rem;
+  color: var(--logo-blue);
+}
+
+.brand-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--logo-blue);
+}
+
+/* Buscador (Contenedor Estructural) */
+.search-bar-container {
+  flex-grow: 1;
+  max-width: 500px;
+  background-color: #f5f7fa;
+  border-radius: 50px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  height: 45px;
+  border: 1px solid transparent;
+}
+
+/* Estado oculto (Mantiene estructura pero invisible) */
+.search-bar-container.oculto {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.search-icon {
+  font-size: 1.2rem;
+  color: #999;
+  margin-right: 10px;
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  outline: none;
+}
+
+/* Acciones Usuario */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: background 0.2s;
+  font-size: 1.3rem;
+  position: relative;
+}
+
+.icon-btn:hover {
+  background-color: #f0f2f5;
+  color: var(--primary-blue);
+}
+
+.notification-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--red);
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+/* Perfil */
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 15px 5px 5px;
+  background-color: #f5f7fa;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.profile-section:hover {
+  background-color: var(--hover-blue);
+}
+
+.avatar-img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0056b3;
+  white-space: nowrap;
+}
+
+/* =========================================
+   3. ESTILOS DEL FORMULARIO DE REGISTRO
+   ========================================= */
+.register-layout {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 50px;
+}
+
+.register-card {
+  width: 100%;
+  background-color: var(--bg-card);
+  padding: 40px 50px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.card-header-form {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  color: var(--primary-blue);
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Títulos de Sección */
+.subsection-title {
+  font-size: 1.1rem;
+  color: var(--text-main);
+  margin-bottom: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.subsection-title i {
+  color: var(--primary-blue);
+  font-size: 1.3rem;
+  background: var(--hover-blue);
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 30px 0;
+}
+
+/* Grid System */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Inputs y Selects */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  background-color: #fff;
+  color: var(--text-main);
+  outline: none;
+  transition: all 0.3s ease;
+
+  /* Normalizar Select */
+  appearance: none;
+  -webkit-appearance: none;
+
+  /* Icono Flecha para Select */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 10px;
+}
+
+/* Quitar fondo de flecha en inputs que no son select */
+.input-wrapper input {
+  background-image: none;
+}
+
+.input-wrapper input:focus,
+.input-wrapper select:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(44, 177, 230, 0.15);
+}
+
+.disabled-wrapper input {
+  background-color: #f9fafb;
+  color: #999;
+  cursor: not-allowed;
+  border-color: #eee;
+}
+
+/* Botones */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #f9f9f9;
+}
+
+.btn-registrar {
+  margin-top: 25px;
+
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+}
+
+.btn-registrar:hover {
+  background-color: var(--logo-blue);
+}
+
+.btn-cancelar {
+  margin-top: 25px;
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid #ddd;
+  padding: 12px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+
+.btn-cancelar:hover {
+  background-color: #f5f5f5;
+  color: var(--text-main);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-moderno {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 15px;
+  }
+
+  .search-bar-container {
+    min-width: 100%;
+    margin: 0;
+    order: 3;
+  }
+
+  .logo-section {
+    order: 1;
+  }
+
+  .user-actions {
+    order: 2;
+  }
+
+  .register-card {
+    padding: 30px 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn-registrar,
+  .btn-cancelar {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

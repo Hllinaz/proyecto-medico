@@ -13,6 +13,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/admin/admin').then((m) => m.Admin),
     canActivate: [AdminGuard],
   },
+  {
+    path: 'admin/register',
+    loadComponent: () => import('./components/admin/register/medico').then((m) => m.Medico),
+    canActivate: [AdminGuard],
+  },
 
   // Rutas de dashboard con validación de tipos
   {

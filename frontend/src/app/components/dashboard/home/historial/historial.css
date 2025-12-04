@@ -1,34 +1,55 @@
 /* 2. Tabla de Historial (ESTILOS DE TABLA) */
 .historial-container {
-    flex-grow: 1; /* Se estira para llenar el espacio */
-    overflow: hidden;
+  flex-grow: 1; /* Se estira para llenar el espacio */
+  overflow: hidden;
 }
 
 .table-responsive {
-    width: 100%;
-    overflow-x: auto;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .tabla-citas {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 500px; /* Evita que se aplaste en móvil */
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px; /* Evita que se aplaste en móvil */
 }
 
 /* Encabezados */
 .tabla-citas th {
-    text-align: left;
-    padding: 15px;
-    color: #ccc; /* Color gris claro según diseño */
-    font-weight: 500;
-    font-size: 0.9rem;
-    border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+  padding: 15px;
+  color: #ccc; /* Color gris claro según diseño */
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 /* Celdas */
 .tabla-citas td {
-    padding: 18px 15px;
-    border-bottom: 1px solid #f5f5f5;
-    font-size: 0.95rem;
-    vertical-align: middle;
+  padding: 18px 15px;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+.btn-outline,
+.btn-danger-outline {
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  flex: 1; /* Ocupan el mismo ancho */
+  transition: all 0.2s;
+  background: transparent;
+}
+
+.btn-outline {
+  border: 1px solid var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.btn-outline:hover {
+  background-color: #ebf8fd;
 }

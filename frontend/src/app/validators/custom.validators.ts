@@ -2,7 +2,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class CustomValidators {
-
   // Validador para comparar dos campos (ej: password y confirmPassword)
   static match(controlName: string, matchingControlName: string): ValidatorFn {
     return (formGroup: AbstractControl): ValidationErrors | null => {
@@ -68,5 +67,16 @@ export class CustomValidators {
 
       return null;
     };
+  }
+
+  static passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    if (password && confirmPassword && password.value !== confirmPassword.value) {
+      confirmPassword.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    }
+    return null;
   }
 }

@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService, StateService } from '@services';
+import { AuthService, StateService, UserService } from '@services';
 import { UserType } from '@app/models';
 import { USER_TYPES } from '@app/constants';
 
@@ -13,6 +13,7 @@ import { USER_TYPES } from '@app/constants';
   styleUrl: './login.css',
 })
 export class Login {
+  userService = inject(UserService);
   loginForm: FormGroup;
   loading = false;
   error = '';
@@ -57,6 +58,13 @@ export class Login {
 
           if (response && response.user_id && response.rol) {
             const type = this.stateService.setUser(response.rol);
+            const userId = response.user_id;
+
+            this.userService.getUserById(parseInt(userId)).subscribe({
+              next: (response) => {
+                localStorage.setItem('userData', JSON.stringify(response) || '');
+              },
+            });
             console.log('Redirigiendo usuario tipo:', type);
             this.redirectUser(type);
           } else {

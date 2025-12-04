@@ -1,154 +1,337 @@
-// cita.component.ts
-import { Component, OnInit } from '@angular/core';
-import { NgClass } from '@angular/common';
+// schedule.component.ts
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { NgClass, DatePipe } from '@angular/common';
+import { DoctorService, AppointmentService, AuthService } from '@app/services';
+import { USER_TYPES } from '@app/constants';
 
-interface Cita {
+interface CitaCalendario {
   id: number;
   paciente: string;
   tipo: string;
-  estado: 'confirmado' | 'pendiente' | 'cancelado';
-  dia: number; // 1 = Lun, 2 = Mar, ..., 6 = Sáb
-  hora: number; // 1 = 08:00, 2 = 09:00, ..., 10 = 17:00
-  duracion?: number; // duración en slots de hora (opcional)
+  estado: 'AGENDADA' | 'COMPLETADA' | 'CANCELADA' | 'PENDIENTE';
+  fecha: Date;
+  hora_inicio: string;
+  hora_fin: string;
+  motivo: string;
+  id_medico: number;
+  id_paciente: number;
+  duracionSlots?: number; // duración en slots de 30 minutos
+  columnaDia?: number; // 1 = Lun, 2 = Mar, etc.
+  filaHora?: number; // posición en la grid
+}
+
+interface DiaSemana {
+  nombre: string;
+  fecha: Date;
+  diaNum: number; // 1 = Lunes, 2 = Martes, etc.
+  fechaStr: string; // Formato YYYY-MM-DD
 }
 
 @Component({
-  selector: 'app-cita',
-  imports: [NgClass],
+  selector: 'app-schedule',
+  imports: [NgClass, DatePipe],
   templateUrl: './schedule.html',
   styleUrls: ['./schedule.css'],
 })
 export class Schedule implements OnInit {
-  // Datos de ejemplo
-  citasData: Cita[] = [
-    {
-      id: 1,
-      paciente: 'Juan Pérez',
-      tipo: 'Consulta general',
-      estado: 'confirmado',
-      dia: 1, // Lunes
-      hora: 2, // 09:00 AM
-      duracion: 2,
-    },
-    {
-      id: 2,
-      paciente: 'María García',
-      tipo: 'Control rutina',
-      estado: 'pendiente',
-      dia: 3, // Miércoles
-      hora: 4, // 11:00 AM
-      duracion: 1,
-    },
-    {
-      id: 3,
-      paciente: 'Carlos López',
-      tipo: 'Revisión',
-      estado: 'confirmado',
-      dia: 5, // Viernes
-      hora: 7, // 02:00 PM
-      duracion: 3,
-    },
-  ];
+  private doctorService = inject(DoctorService);
+  private appointmentService = inject(AppointmentService);
+  private authService = inject(AuthService);
 
-  // Semana actual
-  semanaActual = {
-    inicio: new Date('2026-03-02'),
-    fin: new Date('2026-03-07'),
-    dias: [
-      { nombre: 'Lun', fecha: '02', diaNum: 1 },
-      { nombre: 'Mar', fecha: '03', diaNum: 2 },
-      { nombre: 'Mié', fecha: '04', diaNum: 3 },
-      { nombre: 'Jue', fecha: '05', diaNum: 4 },
-      { nombre: 'Vie', fecha: '06', diaNum: 5 },
-      { nombre: 'Sáb', fecha: '07', diaNum: 6 },
-    ],
-  };
+  currentUser = this.authService.getCurrentUser();
 
+  // Señales reactivas
+  citas = signal<CitaCalendario[]>([]);
+  semanaActual = signal<DiaSemana[]>([]);
+  isLoading = signal<boolean>(true);
+
+  // Variables para el calendario
   horas = [
-    '08:00 AM',
-    '09:00 AM',
-    '10:00 AM',
-    '11:00 AM',
-    '12:00 PM',
-    '01:00 PM',
-    '02:00 PM',
-    '03:00 PM',
-    '04:00 PM',
-    '05:00 PM',
+    '08:00',
+    '08:30',
+    '09:00',
+    '09:30',
+    '10:00',
+    '10:30',
+    '11:00',
+    '11:30',
+    '12:00',
+    '12:30',
+    '13:00',
+    '13:30',
+    '14:00',
+    '14:30',
+    '15:00',
+    '15:30',
+    '16:00',
+    '16:30',
+    '17:00',
+    '17:30',
+    '18:00',
   ];
 
-  citaSeleccionada: Cita | null = null;
+  citaSeleccionada: CitaCalendario | null = null;
   mostrarModal = false;
 
+  // Fecha actual para navegación
+  fechaReferencia = new Date();
+
   ngOnInit() {
-    // Aquí puedes cargar datos reales de un servicio
+    this.inicializarSemana();
+    this.cargarCitas();
+  }
+
+  // Inicializar la semana actual
+  private inicializarSemana(): void {
+    const hoy = new Date();
+    const diasSemana: DiaSemana[] = [];
+
+    // Obtener el lunes de la semana actual
+    const lunes = new Date(hoy);
+    const diaSemana = lunes.getDay(); // 0 = Domingo, 1 = Lunes, etc.
+    const diff = lunes.getDate() - diaSemana + (diaSemana === 0 ? -6 : 1); // Ajustar para que lunes sea el primer día
+    lunes.setDate(diff);
+
+    // Generar los 6 días (Lunes a Sábado)
+    for (let i = 0; i < 6; i++) {
+      const fecha = new Date(lunes);
+      fecha.setDate(lunes.getDate() + i);
+
+      diasSemana.push({
+        nombre: this.obtenerNombreDia(fecha.getDay()),
+        fecha: fecha,
+        diaNum: fecha.getDay() === 0 ? 7 : fecha.getDay(), // Domingo = 7
+        fechaStr: fecha.toISOString().split('T')[0],
+      });
+    }
+
+    this.semanaActual.set(diasSemana);
+    console.log('Semana inicializada:', this.semanaActual());
+  }
+
+  private obtenerNombreDia(numeroDia: number): string {
+    const dias = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+    return dias[numeroDia];
+  }
+
+  // Cargar citas desde el servicio
+  private cargarCitas(): void {
+    this.isLoading.set(true);
+
+    if (!this.currentUser?.id) {
+      console.error('Usuario no autenticado');
+      this.isLoading.set(false);
+      return;
+    }
+
+    // Dependiendo del tipo de usuario, cargar citas diferentes
+    if (this.currentUser.type === USER_TYPES.DOCTOR) {
+      this.doctorService.getAppointments(this.currentUser.id).subscribe({
+        next: (appointments) => {
+          console.log(appointments);
+          this.procesarCitas(appointments);
+          this.isLoading.set(false);
+        },
+        error: (err) => {
+          console.error('Error cargando citas:', err);
+          this.isLoading.set(false);
+        },
+      });
+    } else if (this.currentUser.type === USER_TYPES.PATIENT) {
+      this.appointmentService.getAppointmentsByPatient(this.currentUser.id).subscribe({
+        next: (appointments) => {
+          this.procesarCitas(appointments);
+          this.isLoading.set(false);
+        },
+        error: (err) => {
+          console.error('Error cargando citas:', err);
+          this.isLoading.set(false);
+        },
+      });
+    }
+  }
+
+  // Procesar citas para el calendario
+  private procesarCitas(appointments: any[]): void {
+    const citasProcesadas: CitaCalendario[] = appointments.map((cita) => {
+      // Calcular duración en slots de 30 minutos
+      const inicio = this.convertirHoraASlot(cita.hora_inicio);
+      const fin = this.convertirHoraASlot(cita.hora_fin);
+      const duracionSlots = fin - inicio;
+
+      // Obtener día de la semana (1 = Lunes, ..., 6 = Sábado)
+      const fechaCita = new Date(cita.fecha_cita);
+      const diaSemana = fechaCita.getDay(); // 0 = Domingo, 1 = Lunes, etc.
+      const columnaDia = diaSemana === 0 ? 7 : diaSemana; // Ajustar para calendario
+
+      // Calcular posición en la grid
+      const filaHora = inicio + 1; // +1 porque la fila 1 es para los headers
+
+      return {
+        id: cita.id_cita,
+        paciente: `Paciente ${cita.id_paciente}`, // En realidad deberías obtener el nombre
+        tipo: cita.motivo.substring(0, 20) + (cita.motivo.length > 20 ? '...' : ''),
+        estado: cita.estado_cita,
+        fecha: fechaCita,
+        hora_inicio: cita.hora_inicio.substring(0, 5), // Formato HH:mm
+        hora_fin: cita.hora_fin.substring(0, 5),
+        motivo: cita.motivo,
+        id_medico: cita.id_medico,
+        id_paciente: cita.id_paciente,
+        duracionSlots,
+        columnaDia,
+        filaHora,
+      };
+    });
+
+    this.citas.set(citasProcesadas);
+    console.log('Citas procesadas:', citasProcesadas);
+  }
+
+  // Convertir hora (HH:mm) a slot de 30 minutos
+  private convertirHoraASlot(hora: string): number {
+    const [horas, minutos] = hora.split(':').map(Number);
+    const horaDecimal = horas + minutos / 60;
+
+    // 8:00 = slot 1, 8:30 = slot 2, etc.
+    return Math.round((horaDecimal - 8) * 2) + 1;
   }
 
   // Navegación entre semanas
-  semanaAnterior() {
-    // Lógica para ir a la semana anterior
-    console.log('Semana anterior');
+  semanaAnterior(): void {
+    this.fechaReferencia.setDate(this.fechaReferencia.getDate() - 7);
+    this.inicializarSemana();
+    this.cargarCitas();
   }
 
-  semanaSiguiente() {
-    // Lógica para ir a la semana siguiente
-    console.log('Semana siguiente');
+  semanaSiguiente(): void {
+    this.fechaReferencia.setDate(this.fechaReferencia.getDate() + 7);
+    this.inicializarSemana();
+    this.cargarCitas();
   }
 
-  // Obtener citas para un día y hora específicos
-  getCitasPorPosicion(dia: number, hora: number): Cita[] {
-    return this.citasData.filter((cita) => cita.dia === dia && cita.hora === hora);
+  irAHoy(): void {
+    this.fechaReferencia = new Date();
+    this.inicializarSemana();
+    this.cargarCitas();
+  }
+
+  // Obtener citas para un día específico
+  getCitasPorDia(dia: DiaSemana): CitaCalendario[] {
+    const fechaStr = dia.fechaStr;
+    return this.citas().filter((cita) => cita.fecha.toISOString().split('T')[0] === fechaStr);
+  }
+
+  // Obtener citas para una posición específica en la grid
+  getCitasPorPosicion(dia: number, slot: number): CitaCalendario[] {
+    return this.citas().filter((cita) => cita.columnaDia === dia && cita.filaHora === slot);
   }
 
   // Calcular estilo de grid para la cita
-  getEstiloCita(cita: Cita): any {
+  getEstiloCita(cita: CitaCalendario): any {
     return {
-      'grid-column': cita.dia + 1, // +1 porque la columna 1 es para las horas
-      'grid-row': cita.hora,
-      'grid-row-end': cita.duracion ? `span ${cita.duracion}` : 'span 1',
+      'grid-column': `${cita.columnaDia}`, // Columna del día
+      'grid-row': `${cita.filaHora} / span ${cita.duracionSlots || 1}`,
+      'z-index': '10',
     };
   }
 
   // Clases CSS según estado
   getClaseEstado(estado: string): string {
-    return `cita-card cita-${estado}`;
+    const clases: Record<string, string> = {
+      AGENDADA: 'cita-agendada',
+      COMPLETADA: 'cita-completada',
+      CANCELADA: 'cita-cancelada',
+      PENDIENTE: 'cita-pendiente',
+    };
+
+    return `cita-card ${clases[estado] || 'cita-agendada'}`;
+  }
+
+  // Obtener texto para estado
+  getTextoEstado(estado: string): string {
+    const textos: Record<string, string> = {
+      AGENDADA: 'Agendada',
+      COMPLETADA: 'Completada',
+      CANCELADA: 'Cancelada',
+      PENDIENTE: 'Pendiente',
+    };
+
+    return textos[estado] || estado;
   }
 
   // Abrir modal con detalles de la cita
-  abrirModal(cita: Cita) {
+  abrirModal(cita: CitaCalendario): void {
     this.citaSeleccionada = cita;
     this.mostrarModal = true;
   }
 
-  cerrarModal() {
+  cerrarModal(): void {
     this.mostrarModal = false;
     this.citaSeleccionada = null;
   }
 
-  // Formatear fecha de la semana
+  // Formatear rango de la semana
   getRangoSemana(): string {
-    return `Marzo 02 - Marzo 07, 2026`;
+    const dias = this.semanaActual();
+    if (dias.length === 0) return '';
+
+    const inicio = dias[0].fecha;
+    const fin = dias[dias.length - 1].fecha;
+
+    const options: Intl.DateTimeFormatOptions = {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    };
+
+    return `${inicio.toLocaleDateString('es-ES', options)} - ${fin.toLocaleDateString('es-ES', options)}`;
   }
 
-  confirmarCita() {
-    if (this.citaSeleccionada) {
-      this.citaSeleccionada.estado = 'confirmado';
-      // Aquí puedes agregar lógica para guardar en el servicio
-      console.log('Cita confirmada:', this.citaSeleccionada);
-    }
+  // Obtener nombre del mes actual
+  getMesActual(): string {
+    return this.fechaReferencia.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
   }
 
-  cancelarCita() {
+  // Confirmar cita
+  confirmarCita(): void {
     if (this.citaSeleccionada) {
-      this.citaSeleccionada.estado = 'cancelado';
-      // Aquí puedes agregar lógica para guardar en el servicio
-      console.log('Cita cancelada:', this.citaSeleccionada);
+      // Lógica para confirmar cita
+      console.log('Confirmando cita:', this.citaSeleccionada.id);
+      // this.appointmentService.confirmarCita(this.citaSeleccionada.id).subscribe(...);
       this.cerrarModal();
     }
   }
 
-  // Método para obtener el avatar del paciente
-  getAvatarText(paciente: string): string {
-    return paciente.charAt(0).toUpperCase();
+  // Cancelar cita
+  cancelarCita(): void {
+    if (this.citaSeleccionada) {
+      if (confirm('¿Está seguro de cancelar esta cita?')) {
+        // Lógica para cancelar cita
+        console.log('Cancelando cita:', this.citaSeleccionada.id);
+        // this.appointmentService.cancelarCita(this.citaSeleccionada.id).subscribe(...);
+        this.cerrarModal();
+      }
+    }
+  }
+
+  // Obtener iniciales del paciente
+  getInicialesPaciente(paciente: string): string {
+    return paciente
+      .split(' ')
+      .map((n) => n.charAt(0))
+      .join('')
+      .toUpperCase();
+  }
+
+  // Verificar si un slot está ocupado
+  isSlotOcupado(dia: number, slot: number): boolean {
+    return this.getCitasPorPosicion(dia, slot).length > 0;
+  }
+
+  // Obtener cita en un slot específico
+  getCitaEnSlot(dia: number, slot: number): CitaCalendario | null {
+    const citas = this.getCitasPorPosicion(dia, slot);
+    return citas.length > 0 ? citas[0] : null;
   }
 }

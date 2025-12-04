@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.db import connection
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -140,8 +142,36 @@ class MedicoViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class MedicoEspecialidadViewSet(viewsets.ModelViewSet):
-    queryset = MedicoEspecialidad.objects.all()
     serializer_class = MedicoEspecialidadSerializer
+    
+    def get_queryset(self):
+        """GET /api/medico-especialidad/ - Lista todos"""
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT * 
+                FROM medico_especialidad me
+                ORDER BY me.id_medico
+            """)
+                
+                # Convertir a lista de diccionarios
+            columns = [col[0] for col in cursor.description]
+            results = [
+            dict(zip(columns, row))
+                for row in cursor.fetchall()
+            ]
+            
+        return results
+
+    def list(self, request):
+        try:
+            queryset = self.get_queryset()
+            
+            return Response(queryset)
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR  
+            )
 
 
 class HorarioMedicoViewSet(viewsets.ModelViewSet):

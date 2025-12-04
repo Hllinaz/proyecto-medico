@@ -1,10 +1,25 @@
-import { User } from './user.model';
-
-// Interfaces para los datos de tu API
-export interface Doctor {
-  id: number;
+export interface DoctorResponse {
+  id_medico: number;
   nombre: string;
   apellido: string;
   especialidad: string;
-  // Agrega otros campos según tu API
+  estado: string;
+}
+
+export interface Doctor {
+  id: number;
+  name: string;
+  lastname: string;
+  speciality: string;
+  status: string;
+}
+
+export interface SpecialityResponse {
+  id_medico: number;
+  especialidad: string;
+}
+
+export interface Speciality {
+  id: number;
+  name: string;
 }

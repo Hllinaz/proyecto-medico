@@ -35,6 +35,36 @@
   color: #999;
 }
 
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.time-slot {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  background: white;
+}
+
+.time-slot:hover {
+  border-color: #4a90e2;
+  background: #f0f7ff;
+}
+
+.time-slot.selected {
+  border-color: #4a90e2;
+  background: #4a90e2;
+  color: white;
+  font-weight: 500;
+}
+
 /* --- ALERTA INFORMATIVA (UX) --- */
 .info-alert {
   background-color: #fff8e1; /* Fondo amarillo muy suave */

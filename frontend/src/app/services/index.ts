@@ -4,3 +4,5 @@ export * from './loading.service';
 export * from './notification.service';
 export * from './data.service';
 export * from './appointment.service';
+export * from './doctor.service';
+export * from './user.service';

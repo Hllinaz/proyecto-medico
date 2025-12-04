@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Médico - MedSpace Admin</title>
+    <link rel="stylesheet" href="editar_perfil.css">
+    <link rel="stylesheet" href="registro_medico.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <header class="header-moderno">
+            <div class="logo-section">
+                <img src="img/logo.png" alt="MedSpace Logo" class="logo-img">
+            </div>
+            
+            <div class="search-bar-container oculto"></div>
+
+            <div class="user-actions">
+                <div class="profile-section" style="background-color: #E3F2FD;">
+                    <img src="https://ui-avatars.com/api/?name=Admin+Principal&background=0D8ABC&color=fff" alt="Admin" class="avatar-img">
+                    <span class="user-name" style="color: #0056b3;">Admin Principal</span>
+                </div>
+                <button class="icon-btn logout-btn"><i class='bx bx-log-out'></i></button>
+            </div>
+        </header>
+
+        <main class="register-layout">
+            
+            <section class="card register-card">
+                <div class="card-header-form">
+                    <h2 class="section-title">Registrar Nuevo Médico</h2>
+                    <p class="subtitle">Complete la información para crear el usuario y asignar el perfil profesional.</p>
+                </div>
+
+                <form class="register-form">
+                    
+                    <h3 class="subsection-title"><i class='bx bx-user'></i> Información Personal</h3>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nombre *</label>
+                            <div class="input-wrapper">
+                                <input type="text" name="nombre" placeholder="Ej. Juan" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Apellido *</label>
+                            <div class="input-wrapper">
+                                <input type="text" name="apellido" placeholder="Ej. Pérez" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tipo de Documento</label>
+                            <div class="input-wrapper">
+                                <select name="tipo_documento" required>
+                                    <option value="" disabled selected>Seleccione...</option>
+                                    <option value="CC">Cédula de Ciudadanía</option>
+                                    <option value="CE">Cédula de Extranjería</option>
+                                    <option value="PAS">Pasaporte</option>
+                                    <option value="TP">Tarjeta Profesional</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Número de Documento *</label>
+                            <div class="input-wrapper">
+                                <input type="text" name="numero_documento" placeholder="Ej. 1000234567" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Correo Electrónico *</label>
+                            <div class="input-wrapper">
+                                <input type="email" name="email" placeholder="doctor@medspace.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <div class="input-wrapper">
+                                <input type="tel" name="telefono" placeholder="+57 300..." required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+
+                    <h3 class="subsection-title"><i class='bx bx-briefcase-alt-2'></i> Información Profesional</h3>
+                    
+                    <div class="form-grid">
+                        
+                        <div class="form-group">
+                            <label>Número de Licencia Médica *</label>
+                            <div class="input-wrapper">
+                                <i class='bx bx-id-card input-icon-right'></i>
+                                <input type="text" name="numero_licencia" placeholder="Ej. MD-2025-9988" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Años de Experiencia</label>
+                            <div class="input-wrapper">
+                                <input type="number" name="anios_experiencia" min="0" placeholder="Ej. 5">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Especialidad Principal</label>
+                            <div class="input-wrapper">
+                                <select name="id_especialidad" required>
+                                    <option value="" disabled selected>Seleccione Especialidad</option>
+                                    <option value="cardiologia">Cardiología</option>
+                                    <option value="pediatria">Pediatría</option>
+                                    <option value="dermatologia">Dermatología</option>
+                                    <option value="general">Medicina General</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Rol de Sistema</label>
+                            <div class="input-wrapper disabled-wrapper">
+                                <input type="text" value="Médico (ID Rol: 2)" readonly disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+
+                    <h3 class="subsection-title"><i class='bx bx-lock-alt'></i> Seguridad de Cuenta</h3>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Contraseña Temporal *</label>
+                            <div class="input-wrapper">
+                                <input type="password" name="password" placeholder="Mínimo 8 caracteres" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirmar Contraseña *</label>
+                            <div class="input-wrapper">
+                                <input type="password" name="confirm_password" placeholder="Repita la contraseña" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions-register">
+                        <button type="button" class="btn-cancelar" onclick="window.history.back()">Cancelar</button>
+                        <button type="submit" class="btn-registrar">
+                            <i class='bx bx-user-plus'></i> Registrar Médico
+                        </button>
+                    </div>
+
+                </form>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

@@ -30,37 +30,44 @@
         <label>Paciente</label>
         <div class="input-readonly-wrapper">
           <i class="bx bx-user"></i>
-            <input type="text" [value]="getPatientName()" readonly />
+           <input type="text" [value]="getPatientName()" readonly />
         </div>
       </div>
 
       <div class="form-row">
-        <div class="form-group">
-          <label>Especialidad</label>
-          <select
-            [(ngModel)]="formData.specialtyId"
-            name="specialtyId"
-            required
-            (change)="onSpecialtyChange()"
-          >
-            <option value="">Seleccionar especialidad</option>
-            @for (spec of specialities; track spec.id) {
-              <option [value]="spec.id">{{ spec.name }}</option>
-            }
-          </select>
-        </div>
-
         <div class="form-group">
           <label>Doctor Asignado</label>
           <select
             [(ngModel)]="formData.doctorId"
             name="doctorId"
             required
-            [disabled]="!formData.specialtyId"
+            (change)="onDoctorChange()"
           >
-            <option value="">Seleccionar doctor</option>
-            @for (doctor of filteredDoctors; track doctor.id) {
-              <option [value]="doctor.id">{{ doctor.name }}</option>
+            @if (actualRoute === 'edit' && formData.doctorId) {
+              @for (doctor of doctors; track doctor.id) {
+                @if (doctor.id.toString() === formData.doctorId.toString()) {
+                  <option [value]="doctor.id" selected>Dr. {{ doctor.name }} {{ doctor.lastname }}</option>
+                }
+              }
+            } @else {
+              <option value="" disabled selected>Seleccionar doctor</option>
+              @for (doctor of doctors; track doctor.id) {
+                <option [value]="doctor.id">Dr. {{ doctor.name }} {{ doctor.lastname }}</option>
+              }
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Especialidad</label>
+          <select
+            [(ngModel)]="formData.specialtyId"
+            name="specialtyId"
+            required
+            [disabled]="!formData.doctorId"
+          >
+            <option value="">Seleccionar especialidad</option>
+            @for (spec of filteredSpeciality; track spec) {
+              <option [value]="spec.id">{{ spec.name }}</option>
             }
           </select>
         </div>
@@ -79,16 +86,21 @@
         </div>
 
         <div class="form-group">
-          <label>{{ actualRoute === 'edit' ? 'Nueva Hora' : 'Hora' }}</label>
-          <input
-            type="time"
-            [(ngModel)]="formData.time"
-            name="time"
-            required
-            min="08:00"
-            max="18:00"
-          />
-        </div>
+  <label>{{ actualRoute === 'edit' ? 'Nuevo Horario' : 'Seleccionar Horario' }}</label>
+
+  <div class="form-group">
+  <select>
+    @for (slot of timeSlots; track slot) {
+      <option class="time-slot" [class.selected]="isSlotSelected(slot)" (click)="selectTimeSlot(slot)">
+      {{ slot.start }} - {{ slot.end }}
+     </option>
+    }
+  </select>
+
+  </div>
+
+  <input type="hidden" [(ngModel)]="formData.selectedSlot" name="selectedSlot">
+</div>
       </div>
 
       <div class="form-group full-width">
@@ -108,25 +120,11 @@
             placeholder="Describe brevemente tus síntomas o la razón de la visita..."
           ></textarea>
         }
-
-        <!-- Campo para notas adicionales -->
-        @if (actualRoute === 'edit') {
-        <div class="additional-notes">
-          <label>Notas adicionales (opcional)</label>
-          <textarea
-            rows="2"
-            [(ngModel)]="formData.notes"
-            name="notes"
-            placeholder="Agregar notas adicionales..."
-          ></textarea>
-        </div>
-        }
-
       </div>
 
       <div class="form-actions-edit">
         @if (actualRoute === 'edit') {
-          <button type="button" class="btn-danger-text" (click)="onCancelAppointment()">
+          <button type="button" class="btn-danger-text" (click)="onCancel()">
             <i class="bx bx-trash"></i> Cancelar esta Cita
           </button>
         }

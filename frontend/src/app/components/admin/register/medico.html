@@ -1,0 +1,326 @@
+<div class="main-container">
+  <header class="header">
+    <!-- Header se mantiene igual -->
+  </header>
+
+  <div class="main-container">
+    <main class="register-layout">
+      <section class="card register-card">
+        <div class="card-header-form">
+          <h2 class="section-title">Registrar Nuevo Médico</h2>
+          <p class="section-subtitle">
+            Complete la información para crear el usuario y asignar el perfil profesional.
+          </p>
+        </div>
+
+        <!-- Formulario con enlace de datos -->
+        <form class="register-form" [formGroup]="medicoForm" (ngSubmit)="onSubmit()">
+          <h3 class="subsection-title"><i class="bx bx-user"></i> Información Personal</h3>
+
+          <div class="form-grid">
+            <!-- Nombre -->
+            <div class="form-group">
+              <label>Nombre *</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  formControlName="nombre"
+                  placeholder="Ej. Juan"
+                  [class.error]="
+                    medicoForm.get('nombre')?.invalid && medicoForm.get('nombre')?.touched
+                  "
+                />
+              </div>
+              @if (medicoForm.get('nombre')?.invalid && medicoForm.get('nombre')?.touched) {
+                <div class="error-message">
+                  @if (medicoForm.get('nombre')?.errors?.['required']) {
+                    <span>El nombre es requerido</span>
+                  }
+                  @if (medicoForm.get('nombre')?.errors?.['minlength']) {
+                    <span>Mínimo 2 caracteres</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Apellido -->
+            <div class="form-group">
+              <label>Apellido *</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  formControlName="apellido"
+                  placeholder="Ej. Pérez"
+                  [class.error]="
+                    medicoForm.get('apellido')?.invalid && medicoForm.get('apellido')?.touched
+                  "
+                />
+              </div>
+              @if (medicoForm.get('apellido')?.invalid && medicoForm.get('apellido')?.touched) {
+                <div class="error-message">
+                  @if (medicoForm.get('apellido')?.errors?.['required']) {
+                    <span>El apellido es requerido</span>
+                  }
+                  @if (medicoForm.get('apellido')?.errors?.['minlength']) {
+                    <span>Mínimo 2 caracteres</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Tipo de Documento -->
+            <div class="form-group">
+              <label>Tipo de Documento *</label>
+              <div class="input-wrapper">
+                <select
+                  formControlName="tipoDocumento"
+                  [class.error]="
+                    medicoForm.get('tipoDocumento')?.invalid &&
+                    medicoForm.get('tipoDocumento')?.touched
+                  "
+                >
+                  <option value="" disabled selected>Seleccione...</option>
+                  <option value="CC">Cédula de Ciudadanía</option>
+                  <option value="CE">Cédula de Extranjería</option>
+                  <option value="PAS">Pasaporte</option>
+                  <option value="TP">Tarjeta Profesional</option>
+                </select>
+              </div>
+              @if (
+                medicoForm.get('tipoDocumento')?.invalid && medicoForm.get('tipoDocumento')?.touched
+              ) {
+                <div class="error-message">
+                  <span>Seleccione un tipo de documento</span>
+                </div>
+              }
+            </div>
+
+            <!-- Número de Documento -->
+            <div class="form-group">
+              <label>Número de Documento *</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  formControlName="numeroDocumento"
+                  placeholder="Ej. 1000234567"
+                  [class.error]="
+                    medicoForm.get('numeroDocumento')?.invalid &&
+                    medicoForm.get('numeroDocumento')?.touched
+                  "
+                />
+              </div>
+              @if (
+                medicoForm.get('numeroDocumento')?.invalid &&
+                medicoForm.get('numeroDocumento')?.touched
+              ) {
+                <div class="error-message">
+                  @if (medicoForm.get('numeroDocumento')?.errors?.['required']) {
+                    <span>El número de documento es requerido</span>
+                  }
+                  @if (medicoForm.get('numeroDocumento')?.errors?.['pattern']) {
+                    <span>Solo números y letras</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Correo Electrónico -->
+            <div class="form-group">
+              <label>Correo Electrónico *</label>
+              <div class="input-wrapper">
+                <input
+                  type="email"
+                  formControlName="email"
+                  placeholder="doctor@medspace.com"
+                  [class.error]="
+                    medicoForm.get('email')?.invalid && medicoForm.get('email')?.touched
+                  "
+                />
+              </div>
+              @if (medicoForm.get('email')?.invalid && medicoForm.get('email')?.touched) {
+                <div class="error-message">
+                  @if (medicoForm.get('email')?.errors?.['required']) {
+                    <span>El email es requerido</span>
+                  }
+                  @if (medicoForm.get('email')?.errors?.['email']) {
+                    <span>Formato de email inválido</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Teléfono -->
+            <div class="form-group">
+              <label>Teléfono</label>
+              <div class="input-wrapper">
+                <input type="tel" formControlName="telefono" placeholder="+57 300..." />
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider" />
+
+          <h3 class="subsection-title">
+            <i class="bx bx-briefcase-alt-2"></i> Información Profesional
+          </h3>
+
+          <div class="form-grid">
+            <!-- Número de Licencia -->
+            <div class="form-group">
+              <label>Número de Licencia Médica *</label>
+              <div class="input-wrapper">
+                <i class="bx bx-id-card input-icon-right"></i>
+                <input
+                  type="text"
+                  formControlName="numeroLicencia"
+                  placeholder="Ej. MD-2025-9988"
+                  [class.error]="
+                    medicoForm.get('numeroLicencia')?.invalid &&
+                    medicoForm.get('numeroLicencia')?.touched
+                  "
+                />
+              </div>
+              @if (
+                medicoForm.get('numeroLicencia')?.invalid &&
+                medicoForm.get('numeroLicencia')?.touched
+              ) {
+                <div class="error-message">
+                  @if (medicoForm.get('numeroLicencia')?.errors?.['required']) {
+                    <span>La licencia médica es requerida</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Años de Experiencia -->
+            <div class="form-group">
+              <label>Años de Experiencia</label>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  formControlName="aniosExperiencia"
+                  min="0"
+                  placeholder="Ej. 5"
+                />
+              </div>
+            </div>
+
+            <!-- Especialidad -->
+            <div class="form-group">
+              <label>Especialidad Principal *</label>
+              <div class="input-wrapper">
+                <select
+                  formControlName="especialidad"
+                  [class.error]="
+                    medicoForm.get('especialidad')?.invalid &&
+                    medicoForm.get('especialidad')?.touched
+                  "
+                >
+                  <option value="" disabled selected>Seleccione Especialidad</option>
+                  @for (esp of especialidades; track esp.id) {
+                    <option [value]="esp.id">{{ esp.nombre }}</option>
+                  }
+                </select>
+              </div>
+              @if (
+                medicoForm.get('especialidad')?.invalid && medicoForm.get('especialidad')?.touched
+              ) {
+                <div class="error-message">
+                  <span>Seleccione una especialidad</span>
+                </div>
+              }
+            </div>
+
+            <!-- Rol de Sistema -->
+            <div class="form-group">
+              <label>Rol de Sistema</label>
+              <div class="input-wrapper disabled-wrapper">
+                <input type="text" value="Médico (ID Rol: 2)" readonly disabled />
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider" />
+
+          <h3 class="subsection-title"><i class="bx bx-lock-alt"></i> Seguridad de Cuenta</h3>
+
+          <div class="form-grid">
+            <!-- Contraseña -->
+            <div class="form-group">
+              <label>Contraseña Temporal *</label>
+              <div class="input-wrapper">
+                <input
+                  type="password"
+                  formControlName="password"
+                  placeholder="Mínimo 8 caracteres"
+                  [class.error]="
+                    medicoForm.get('password')?.invalid && medicoForm.get('password')?.touched
+                  "
+                />
+              </div>
+              @if (medicoForm.get('password')?.invalid && medicoForm.get('password')?.touched) {
+                <div class="error-message">
+                  @if (medicoForm.get('password')?.errors?.['required']) {
+                    <span>La contraseña es requerida</span>
+                  }
+                  @if (medicoForm.get('password')?.errors?.['minlength']) {
+                    <span>Mínimo 8 caracteres</span>
+                  }
+                  @if (medicoForm.get('password')?.errors?.['pattern']) {
+                    <span>Debe contener mayúsculas, minúsculas y números</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Confirmar Contraseña -->
+            <div class="form-group">
+              <label>Confirmar Contraseña *</label>
+              <div class="input-wrapper">
+                <input
+                  type="password"
+                  formControlName="confirmPassword"
+                  placeholder="Repita la contraseña"
+                  [class.error]="
+                    medicoForm.get('confirmPassword')?.invalid &&
+                    medicoForm.get('confirmPassword')?.touched
+                  "
+                />
+              </div>
+              @if (
+                medicoForm.get('confirmPassword')?.invalid &&
+                medicoForm.get('confirmPassword')?.touched
+              ) {
+                <div class="error-message">
+                  @if (medicoForm.get('confirmPassword')?.errors?.['required']) {
+                    <span>Confirme la contraseña</span>
+                  }
+                  @if (medicoForm.get('confirmPassword')?.errors?.['passwordMismatch']) {
+                    <span>Las contraseñas no coinciden</span>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="form-actions-register">
+            <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+            <button
+              type="submit"
+              class="btn-registrar"
+              [disabled]="medicoForm.invalid || isLoading"
+            >
+              @if (isLoading) {
+                <i class="bx bx-loader-alt bx-spin"></i>
+                <span>Procesando...</span>
+              } @else {
+                <i class="bx bx-user-plus"></i>
+                <span>Registrar Médico</span>
+              }
+            </button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+</div>

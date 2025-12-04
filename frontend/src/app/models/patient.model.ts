@@ -1,19 +1,17 @@
-import { User } from './user.model';
-
-export interface Patient extends User {
-  birthDate: Date;
-  gender: string;
-  address: string;
-  age: number;
-  isAdult: boolean;
+export interface PatientResponse {
+  id_paciente: number;
+  nombre: string;
+  apellido: string;
+  tipo_documento: string;
+  numero_documento: string;
+  sexo: string;
 }
 
-export interface PatientShowAD {
+export interface Patient {
   id: number;
-  birthDate: Date;
-  address: string;
+  name: string;
+  lastname: string;
+  document_type: string;
+  document: string;
   gender: string;
-  age: number;
-  isAdult: boolean;
-  fullName?: string; // Vamos a agregar esto
 }

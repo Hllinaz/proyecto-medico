@@ -1,7 +1,7 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { USER_TYPES, APPOINTMENT_STATUS } from '@constants';
 import { UserType } from '@models';
-import { StateService } from '@services';
+import { StateService, AppointmentService, AppointmentResult } from '@services';
 
 @Component({
   selector: 'app-next-patient',
@@ -9,7 +9,15 @@ import { StateService } from '@services';
   templateUrl: './next.html',
   styleUrl: './next.css',
 })
-export class Next {
+export class Next implements OnInit {
+  appointmentService = inject(AppointmentService);
+  stateService = inject(StateService);
+  appointment!: AppointmentResult | null;
+
+  ngOnInit(): void {
+    this.appointment = this.appointmentService.getNextAppointment();
+  }
+
   readonly USER_TYPES = USER_TYPES;
   @Input() userType?: UserType;
   day = '';
@@ -23,14 +31,16 @@ export class Next {
 
   statusState = APPOINTMENT_STATUS.CONFIRMED;
 
-  constructor(private state: StateService) {}
-
   // Usar getters para obtener valores dinámicos
   get statusLabel(): string {
-    return this.state.getStatusLabel(this.statusState);
+    return this.stateService.getStatusLabel(
+      this.appointment?.status || APPOINTMENT_STATUS.SCHEDULED,
+    );
   }
 
   get statusClass(): string {
-    return this.state.getStatusClass(this.statusState);
+    return this.stateService.getStatusClass(
+      this.appointment?.status || APPOINTMENT_STATUS.SCHEDULED,
+    );
   }
 }
