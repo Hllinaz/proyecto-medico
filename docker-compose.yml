@@ -26,8 +26,6 @@ services:
     build: ./backend
     container_name: proyecto_medico_backend
     restart: always
-    depends_on:
-      - db
     environment:
       DJANGO_SETTINGS_MODULE: backend_api.settings
       DB_NAME: clinica
