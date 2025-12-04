@@ -34,6 +34,11 @@ export interface UserCreate {
   email: string;
   number: string;
   password: string;
+  numero_licencia?: string;
+  anios_experiencia?: string;
+  id_especialidad?: string;
+  rol_id?: number;
+  estado?: string;
 }
 
 export interface Stadistic {

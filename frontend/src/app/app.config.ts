@@ -2,7 +2,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor } from './interceptors/auth.interceptor';
+import { authInterceptor } from './interceptors/auth.interceptors';
 import { loadingInterceptor } from './interceptors/loading.interceptor';
 
 // 👉 URL del backend
@@ -18,4 +18,3 @@ export const appConfig: ApplicationConfig = {
     { provide: 'API_URL', useValue: API_URL },
   ],
 };
-

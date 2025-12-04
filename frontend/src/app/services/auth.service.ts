@@ -65,17 +65,23 @@ export class AuthService {
 
   register(user: UserCreate | any, id_rol = 3): Observable<RegisterResponse> {
     const userFormat = {
-      nombre: user.name | user.nombre,
-      apellido: user.lastname | user.apellido,
-      tipo_documento: user.doc_type | user.tipo_documento,
-      numero_documento: user.document | user.numero_documento,
-      email: user.email | user.email,
-      telefono: user.number | user.numero,
-      password_hash: user.password | user.password,
+      nombre: user.name || user.nombre,
+      apellido: user.lastname || user.apellido,
+      tipo_documento: user.doc_type || user.tipo_documento,
+      numero_documento: user.document || user.numero_documento,
+      email: user.email || user.email,
+      telefono: user.number || user.numero,
+      password_hash: user.password || user.password,
       id_rol: id_rol,
     };
 
-    return this.http.post<RegisterResponse>(`${API}/api/usuarios/`, userFormat);
+    console.log(userFormat);
+
+    return this.http.post<RegisterResponse>(`${API}/api/usuarios/`, userFormat).pipe(
+      tap((response) => {
+        console.log(response);
+      }),
+    );
   }
 
   logout() {

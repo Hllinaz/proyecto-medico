@@ -83,14 +83,14 @@ export class Medico {
 
     this.isLoading.set(true);
 
-    const formData = {
+    const formData: UserCreate = {
       // Datos personales
-      nombre: this.medicoForm.get('nombre')?.value,
-      apellido: this.medicoForm.get('apellido')?.value,
-      tipo_documento: this.medicoForm.get('tipoDocumento')?.value,
-      numero_documento: this.medicoForm.get('numeroDocumento')?.value,
+      name: this.medicoForm.get('nombre')?.value,
+      lastname: this.medicoForm.get('apellido')?.value,
+      doc_type: this.medicoForm.get('tipoDocumento')?.value,
+      document: this.medicoForm.get('numeroDocumento')?.value,
       email: this.medicoForm.get('email')?.value,
-      telefono: this.medicoForm.get('telefono')?.value || null,
+      number: this.medicoForm.get('telefono')?.value || null,
 
       // Datos profesionales
       numero_licencia: this.medicoForm.get('numeroLicencia')?.value,
@@ -101,7 +101,6 @@ export class Medico {
       password: this.medicoForm.get('password')?.value,
       rol_id: 2, // ID fijo para médico
       estado: 'activo',
-      fecha_registro: new Date().toISOString(),
     };
 
     console.log('Datos a enviar:', formData);

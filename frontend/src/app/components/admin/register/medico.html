@@ -217,8 +217,8 @@
                   "
                 >
                   <option value="" disabled selected>Seleccione Especialidad</option>
-                  @for (esp of especialidades; track esp.id) {
-                    <option [value]="esp.id">{{ esp.nombre }}</option>
+                  @for (esp of especialidades(); track esp.id) {
+                    <option [value]="esp.id">{{ esp.name }}</option>
                   }
                 </select>
               </div>
@@ -308,9 +308,9 @@
             <button
               type="submit"
               class="btn-registrar"
-              [disabled]="medicoForm.invalid || isLoading"
+              [disabled]="medicoForm.invalid || isLoading()"
             >
-              @if (isLoading) {
+              @if (isLoading()) {
                 <i class="bx bx-loader-alt bx-spin"></i>
                 <span>Procesando...</span>
               } @else {
